@@ -472,7 +472,7 @@ function main() {
             var reSty = `
             .chess-logo {
               margin: 10px 0px 0px 0px !important;
-              background-image: url(https://xmods.repl.co/img/logo3.png) !important;
+              background-image: url(https://github.com/qwkdev/xmods/blob/main/img/logo3.png?raw=true) !important;
               background-size: contain;
               background-repeat: no-repeat;
             }

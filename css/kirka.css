@@ -26,23 +26,23 @@ body {
 }
 /********************/
 #app > div.interface.text-2 > div.background {
-  background: url(https://xmods.repl.co/img/kirka_bg2.png) repeat;
+  background: url(https://github.com/qwkdev/xmods/blob/main/img/kirka_bg2.png?raw=true) repeat;
   animation: loopPattern 80s linear infinite;
 }
 
 .end-modal {
-  background: url(https://xmods.repl.co/img/kirka_bg2.png) repeat !important;
+  background: url(https://github.com/qwkdev/xmods/blob/main/img/kirka_bg2.png?raw=true) repeat !important;
 }
 
 #app > div.interface.text-2 > div.background > div.pattern-bg {
-  background: url(https://xmods.repl.co/img/kirka_bg.png) !important;
+  background: url(https://github.com/qwkdev/xmods/blob/main/img/kirka_bg.png?raw=true) !important;
   background-size: cover !important;
   opacity: 1;
   animation: none;
 }
 
 #logo {
-  content: url(https://xmods.repl.co/img/logo.png);
+  content: url(https://github.com/qwkdev/xmods/blob/main/img/logo.png?raw=true);
   width: 200px;
   height: 200px;
 }
