@@ -396,7 +396,7 @@ function main() {
             tmpStyle = document.createElement('style');
             tmpStyle.innerHTML = `.chess-logo {
               margin: 20px 0px 0px 0px !important;
-              background-image: url(https://github.com/qwkdev/xmods/blob/main/img/logo3.png?raw=true) !important;
+              background-image: url(https://github.com/qwkdev/xmods/blob/main/img/logo2.png?raw=true) !important;
               background-size: contain;
               background-repeat: no-repeat;
             }`;
