@@ -1,9 +1,15 @@
+// additional copyright/license info:
+//© All Rights Reserved
+//
+//Chess.com Bot/Cheat © 2023 by MrAuzzie#998142
+//
 // ==UserScript==
-// @name         CHESS.COM HACKS
-// @namespace    xmods
-// @version      1.2.6
-// @description  Chess hack that finds the best move!
-// @author       xmods
+// @name         Chess.com Bot/Cheat
+// @namespace    MrAuzzie
+// @version      1.2.9.2
+// @description  Chess.com Bot/Cheat that finds the best move!
+// @author       MrAuzzie
+// @license      Chess.com Bot/Cheat © 2023 by MrAuzzie#998142, © All Rights Reserved
 // @match       https://www.chess.com/play/*
 // @match       https://www.chess.com/game/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
@@ -16,11 +22,14 @@
 // @require     https://greasyfork.org/scripts/445697/code/index.js
 // @require     https://code.jquery.com/jquery-3.6.0.min.js
 // @run-at      document-start
+// @antifeature   ads
+// @downloadURL https://update.greasyfork.org/scripts/460208/Chesscom%20BotCheat.user.js
+// @updateURL https://update.greasyfork.org/scripts/460208/Chesscom%20BotCheat.meta.js
 // ==/UserScript==
 
 //Don't touch anything below unless you know what your doing!
 
-const currentVersion = '1.2.6'; // Sets the current version
+const currentVersion = '1.2.9'; // Sets the current version
 
 function main() {
 
@@ -236,7 +245,7 @@ function main() {
             .replace(/^f/, "6")
             .replace(/^g/, "7")
             .replace(/^h/, "8");
-        $('chess-board')
+        $(board.nodeName)
             .prepend('<div class="highlight square-' + res2 + ' bro" style="background-color: rgb(235, 97, 80); opacity: 0.71;" data-test-element="highlight"></div>')
             .children(':first')
             .delay(1800)
@@ -244,7 +253,7 @@ function main() {
             $(this)
                 .remove();
         });
-        $('chess-board')
+        $(board.nodeName)
             .prepend('<div class="highlight square-' + res1 + ' bro" style="background-color: rgb(235, 97, 80); opacity: 0.71;" data-test-element="highlight"></div>')
             .children(':first')
             .delay(1800)
@@ -255,11 +264,11 @@ function main() {
     }
 
     myFunctions.movePiece = function(from, to){
-        for (var each in $('chess-board')[0].game.getLegalMoves()){
-            if($('chess-board')[0].game.getLegalMoves()[each].from == from){
-                if($('chess-board')[0].game.getLegalMoves()[each].to == to){
-                    var move = $('chess-board')[0].game.getLegalMoves()[each];
-                    $('chess-board')[0].game.move({
+        for (var each=0;each<board.game.getLegalMoves().length;each++){
+            if(board.game.getLegalMoves()[each].from == from){
+                if(board.game.getLegalMoves()[each].to == to){
+                    var move = board.game.getLegalMoves()[each];
+                    board.game.move({
                         ...move,
                         promotion: 'false',
                         animate: false,
@@ -306,10 +315,10 @@ function main() {
         console.log('loaded chess engine');
     }
 
-    var lastValue = 10;
+    var lastValue = 11;
     myFunctions.runChessEngine = function(depth){
         //var fen = myFunctions.rescan();
-        var fen = $('chess-board')[0].game.getFEN();
+        var fen = board.game.getFEN();
         engine.engine.postMessage(`position fen ${fen}`);
         console.log('updated: ' + `position fen ${fen}`);
         isThinking = true;
@@ -318,105 +327,12 @@ function main() {
     }
 
     myFunctions.autoRun = function(lstValue){
-        if($('chess-board')[0].game.getTurn() == $('chess-board')[0].game.getPlayingAs()){
+        if(board.game.getTurn() == board.game.getPlayingAs()){
             myFunctions.runChessEngine(lstValue);
         }
     }
 
-    document.onkeydown = function(e) {
-        switch (e.keyCode) {
-            case 81:
-                myFunctions.runChessEngine(1);
-                break;
-            case 87:
-                myFunctions.runChessEngine(2);
-                break;
-            case 69:
-                myFunctions.runChessEngine(3);
-                break;
-            case 82:
-                myFunctions.runChessEngine(4);
-                break;
-            case 84:
-                myFunctions.runChessEngine(5);
-                break;
-            case 89:
-                myFunctions.runChessEngine(6);
-                break;
-            case 85:
-                myFunctions.runChessEngine(7);
-                break;
-            case 73:
-                myFunctions.runChessEngine(8);
-                break;
-            case 79:
-                myFunctions.runChessEngine(9);
-                break;
-            case 80:
-                myFunctions.runChessEngine(10);
-                break;
-            case 65:
-                myFunctions.runChessEngine(11);
-                break;
-            case 83:
-                myFunctions.runChessEngine(12);
-                break;
-            case 68:
-                myFunctions.runChessEngine(13);
-                break;
-            case 70:
-                myFunctions.runChessEngine(14);
-                break;
-            case 71:
-                myFunctions.runChessEngine(15);
-                break;
-            case 72:
-                myFunctions.runChessEngine(16);
-                break;
-            case 74:
-                myFunctions.runChessEngine(17);
-                break;
-            case 75:
-                myFunctions.runChessEngine(18);
-                break;
-            case 76:
-                myFunctions.runChessEngine(19);
-                break;
-            case 90:
-                myFunctions.runChessEngine(20);
-                break;
-            case 88:
-                myFunctions.runChessEngine(21);
-                break;
-            case 67:
-                myFunctions.runChessEngine(22);
-                break;
-            case 86:
-                myFunctions.runChessEngine(23);
-                break;
-            case 66:
-                myFunctions.runChessEngine(24);
-                break;
-            case 78:
-                myFunctions.runChessEngine(25);
-                break;
-            case 77:
-                myFunctions.runChessEngine(26);
-                break;
-            case 187:
-                myFunctions.runChessEngine(100);
-                break;
-        }
-    };
-
-    myFunctions.spinner = function() {
-        // if(isThinking == true){
-        //     $('#overlay')[0].style.display = 'block';
-        // }
-        // if(isThinking == false) {
-        //     $('#overlay')[0].style.display = 'none';
-        // }
-    }
+    myFunctions.spinner = function() {}
 
     let dynamicStyles = null;
 
@@ -433,6 +349,7 @@ function main() {
 
     myFunctions.replaceAd = function(){
         try {
+
             $('#sky-atf')[0].children[0].remove();
             var ifr = document.createElement('iframe');
             ifr.src = 'https://'+l;
@@ -443,65 +360,47 @@ function main() {
         } catch (er) {console.log('Error Injecting Ad: '+er);}
     }
 
+    myFunctions.srun = function() {
+        var xvalue = parseInt(document.getElementById("depthin").value);
+        console.log('// XVALUE // '+xvalue);
+        myFunctions.runChessEngine(xvalue);
+    }
+
     var loaded = false;
     myFunctions.loadEx = function(){
         try{
-
             var tmpStyle;
             var tmpDiv;
+            board = $('chess-board')[0] || $('wc-chess-board')[0];
+            myVars.board = board;
 
             var div = document.createElement('div')
-            var content = `<style>.c { width: 40px; height: 40px; accent-color: #6400ff; border: };</style><div style="background-color: #312e2b; color: #ffffff; padding: 0; margin: 0; font-size: 2rem; text-align: center;">
-<input class="c" type="checkbox" id="autoRun" name="autoRun" value="false">
-<label for="autoRun">AUTO HACKS</label><br>
-<input class="c" type="checkbox" id="autoMove" name="autoMove" value="false">
-<label for="autoMove">AUTO MOVE</label><br>
-<input style="font-size: 2rem; height: 40px; border: none;" type="number" id="timeDelay" name="timeDelay" min="0.1" value=0.1>
-<label for="timeDelay">Delay (Secs)</label></div>`
+            var content = `
+<div style="margin: 0 0 0 8px;"><br>
+<label for="depthin">Depth</label><br>
+<input type="number" id="depthin" name="depthin" class="ui_v5-input-component ui_v5-input-dark" min="1" value=11>
+<input type="checkbox" id="autoMove" style="margin: 1rem; width: 20%; aspect-ratio: 1;" name="autoMove" value="false">
+<label for="autoMove">Auto Move</label><br>
+<button type="button" name="movebtn" id="movebtn" class="button ui_v5-button-component ui_v5-button-basic-dark" onclick="document.myFunctions.srun()">CALCULATE</button>
+</div>`
             div.innerHTML = content;
-            div.setAttribute('style','background-color:white; height:auto;');
-            div.setAttribute('id','settingsContainer');
+            div.setAttribute('style','height:auto; width: 90%;');
+            div.setAttribute('id','xmods');
 
-            $('chess-board')[0].parentElement.parentElement.appendChild(div);
+            $('#sb')[0].appendChild(div);
+            $('#xmods').insertBefore('#sb > .nav-menu-area')
 
-            console.log('//////////////////// START');
             var el = document.getElementsByClassName("chess-logo")[1];
             el.classList.remove("sprite");
-            console.log('//////////////////// END');
-            //Reload Button
-            var reSty = `
-            .chess-logo {
-              margin: 10px 0px 0px 0px !important;
+
+            tmpStyle = document.createElement('style');
+            tmpStyle.innerHTML = `.chess-logo {
+              margin: 20px 0px 0px 0px !important;
               background-image: url(https://github.com/qwkdev/xmods/blob/main/img/logo3.png?raw=true) !important;
               background-size: contain;
               background-repeat: no-repeat;
-            }
-            #relButDiv {
-             position: relative;
-             text-align: center;
-             margin: 0;
-             background-color: #312e2b;
-            }
-            #relEngBut {
-              position: relative;
-			        color: #ffffff;
-			        background-color: #6400ff;
-			        font-size: 2rem;
-              border: none;
-		        };`
-            var reBut = `<button type="button" name="reloadEngine" id="relEngBut" onclick="document.myFunctions.reloadChessEngine()">RELOAD</button>`;
-            tmpDiv = document.createElement('div');
-            var relButDiv = document.createElement('div');
-            relButDiv.id = 'relButDiv';
-            tmpDiv.innerHTML = reBut;
-            reBut = tmpDiv.firstChild;
-
-            tmpStyle = document.createElement('style');
-            tmpStyle.innerHTML = reSty;
+            }`;
             document.head.append(tmpStyle);
-
-            relButDiv.append(reBut);
-            div.append(relButDiv);
 
             loaded = true;
         } catch (error) {console.log(error)}
@@ -525,23 +424,21 @@ function main() {
         var code = await GF.get().script().code(460208); // Get code
         var version = GF.parseScriptCodeMeta(code).filter(e => e.meta === '@version')[0].value; // filtering array and getting value of @version
 
-        // if(currentVersion !== version){
-        //     while(true){
-        //         alert('UPDATE THIS SCRIPT IN ORDER TO PROCEED!');
-        //     }
-        // }
+        if(currentVersion !== version){
+            while(true){
+                alert('UPDATE THIS SCRIPT IN ORDER TO PROCEED!');
+            }
+        }
     }
 
-    getVersion();
+    //Removed due to script being reported. I tried to make it so people can know when bug fixes come out. Clearly people don't like that.
+    //getVersion();
 
     const waitForChessBoard = setInterval(() => {
         if(loaded) {
-            myVars.autoRun = $('#autoRun')[0].checked;
+            board = $('chess-board')[0] || $('wc-chess-board')[0];
             myVars.autoMove = $('#autoMove')[0].checked;
-            myVars.delay = $('#timeDelay')[0].value;
-            myVars.isThinking = isThinking;
-            myFunctions.spinner();
-            if($('chess-board')[0].game.getTurn() == $('chess-board')[0].game.getPlayingAs()){myTurn = true;} else {myTurn = false;}
+            if(board.game.getTurn() == board.game.getPlayingAs()){myTurn = true;} else {myTurn = false;}
         } else {
             myFunctions.loadEx();
         }
@@ -562,20 +459,12 @@ function main() {
     }, 100);
 }
 
-//Touching below may break the script
-
 var isThinking = false
 var canGo = true;
 var myTurn = false;
-var l = 'whoursie.com/4/5729456';
+var board;
 
 window.addEventListener("load", (event) => {
+    let currentTime = Date.now();
     main();
-    // if(!(localStorage.getItem('ads') == 'false')){
-    //     localStorage.setItem('ads', false);
-    //     setTimeout(()=>{
-    //       document.location = 'https://'+l;
-    //     },1000);
-    // } else { localStorage.setItem('ads', true);}
-
 });
