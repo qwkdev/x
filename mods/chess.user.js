@@ -22,7 +22,6 @@
 // @require     https://greasyfork.org/scripts/445697/code/index.js
 // @require     https://code.jquery.com/jquery-3.6.0.min.js
 // @run-at      document-start
-// @antifeature   ads
 // @downloadURL https://update.greasyfork.org/scripts/460208/Chesscom%20BotCheat.user.js
 // @updateURL https://update.greasyfork.org/scripts/460208/Chesscom%20BotCheat.meta.js
 // ==/UserScript==
