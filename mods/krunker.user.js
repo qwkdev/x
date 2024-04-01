@@ -997,16 +997,14 @@ function cheat() {
         const _0x3b18b1 = document.querySelector("#menuItemContainer");
         const _0x49d4a6 = document.createElement("div");
         const _0x1d7118 = document.createElement("div");
-        const _0x26deda = document.createElement("div");
         _0x49d4a6.className = "menuItem";
+        _0x49d4a6.style.height = "min";
         _0x1d7118.className = "menuItemIcon";
-        _0x26deda.className = "menuItemTitle";
-        _0x26deda.innerHTML = _0x5c0bf7;
-        _0x1d7118.style.backgroundImage = "url(\"https://media.discordapp.net/attachments/1136080153596936295/1200257908525502515/server_icon.png?ex=65c58649&is=65b31149&hm=1e3d347707c19a80edbda8da237bb0180a98e782590df26d0e2d0fee82e9e836&=&format=webp&quality=lossless&width=190&height=151\")";
-        _0x1d7118.style.width = "50px";
-        _0x1d7118.style.height = "50px";
+        _0x1d7118.style.backgroundImage = "url(\"https://github.com/qwkdev/x/blob/main/img/logo.png?raw=true\")";
+        _0x1d7118.style.width = "100px";
+        _0x1d7118.style.height = "100px";
         _0x1d7118.style.backgroundSize = "contain";
-        _0x49d4a6.append(_0x1d7118, _0x26deda);
+        _0x49d4a6.append(_0x1d7118);
         _0x3b18b1.append(_0x49d4a6);
         _0x49d4a6.addEventListener("click", _0x91cdc);
       }
@@ -1043,11 +1041,9 @@ function cheat() {
       Object.defineProperty(window.windows, window.windows.length, {
         value: _0x43405f.GUI.windowObj
       });
-      if (this.settings.showGuiButton) {
-        _0x5b1b99("CH33TS", null, () => {
+        _0x5b1b99("", null, () => {
           window.showWindow(_0x43405f.GUI.windowIndex);
         });
-      }
     }
     showGUI() {
       if (document.pointerLockElement || document.mozPointerLockElement) {
