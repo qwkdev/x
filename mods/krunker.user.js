@@ -85,7 +85,7 @@ option {
     return true;
 }
 
-setInterval(xmods, 500);
+setInterval(xmods, 200);
 
 // var xmodsi = setInterval(function() {
 //     var xmodsr = xmods();
