@@ -6,7 +6,7 @@
 // @exclude     *://krunker.io/editor.html*
 // @exclude     *//krunker.io/viewer.html/*
 // @grant       none
-// @version     1.2.9
+// @version     1.3.0
 // @author      xmods
 // @description op krunker hacks
 // @run-at      document-start
