@@ -2,9 +2,9 @@
 // @name        krunker hacks
 // @namespace   krunker
 // @match       *://krunker.io/*
-// @exclude     *://krunker.io/social.html/*
+// @exclude     *://krunker.io/social.html*
 // @exclude     *://krunker.io/editor.html*
-// @exclude     *//krunker.io/viewer.html/*
+// @exclude     *//krunker.io/viewer.html*
 // @grant       none
 // @version     1.3.0
 // @author      xmods
