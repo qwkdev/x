@@ -143,4 +143,4 @@ option {
     return true;
 }
 
-setInterval(xmods, 100);
+setInterval(xmods, 200);
