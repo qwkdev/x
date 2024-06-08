@@ -55,7 +55,7 @@ function xmods() {
 .tab-icon {
     filter: brightness(0) invert(1);
 }
-* {
+#settHolder * {
     color: #ffffff !important;
 }
 .custom-checkbox input:checked ~ .checkmark {
