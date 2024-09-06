@@ -273,7 +273,6 @@ const data = {
 
 function toggleAutoAnswer() {
     GM_setValue('autoAnswer', !GM_getValue('autoAnswer', false));
-    console.log(GM_getValue('autoAnswer', false));
     document.getElementById("autoAnswerButton").innerText = "Auto Answer " + (GM_getValue('autoAnswer', false) ? 'ON' : 'OFF');
     setTimeout(() => {
         document.getElementById("navbarSettings").click();
