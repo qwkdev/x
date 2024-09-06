@@ -292,7 +292,9 @@ function answer() {
 
     const question = document.querySelector(".card-header.question-card-header.pt-4.pb-4.border-secondary > .row.m-0 > .col").innerHTML.trim();
     if (data[question].charAt(0) === ">") {
-        document.getElementById('text-answer').value = data[question].slice(1);
+	setTimeout(() => {
+        	document.getElementById('text-answer').value = data[question].slice(1);
+        }, 500);
         if (GM_getValue('autoAnswer', false)) {
             setTimeout(() => {
                 document.getElementById("submit-answer-button").click();
