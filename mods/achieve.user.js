@@ -4402,7 +4402,7 @@ function answer() {
         } else if (GM_getValue('autoMode', 0) === 2) {
             setTimeout(() => {
                 answer.click();
-                retry(500, () => {
+                retry(250, () => {
                     if (document.getElementById("next")) {
                         document.getElementById("next").click();
                     } else {
