@@ -3,7 +3,7 @@
 // @namespace   xmods
 // @match       https://achieve.hashtag-learning.co.uk/assess/question-page/
 // @grant       none
-// @version     2.2
+// @version     2.3
 // @author      xmods
 // @grant       GM_setValue
 // @grant       GM_getValue
@@ -4679,22 +4679,22 @@ function answer() {
         if (answertxt) {
             setTimeout(() => {
                 document.getElementById('text-answer').value = answertxt;
-            }, 500);
+            }, 0);
             if (GM_getValue('autoMode', 0) === 1) {
                 setTimeout(() => {
                     document.getElementById("submit-answer-button").click();
-                }, 1000);
+                }, 0);
             } else if (GM_getValue('autoMode', 0) === 2){
                 setTimeout(() => {
                     document.getElementById("submit-answer-button").click();
-                }, 1000);
+                }, 0);
                 setTimeout(() => {
                     if (document.getElementById("next")) {
                         document.getElementById("next").click();
                     } else {
                         document.getElementById("finish").click();
                     }
-                }, 1500);
+                }, 0);
             }
         }
     } else {
@@ -4727,22 +4727,22 @@ function answer() {
         if (GM_getValue('autoMode', 0) === 1) {
             setTimeout(() => {
                 answer.click();
-            }, 1000);
+            }, 0);
         } else if (GM_getValue('autoMode', 0) === 2) {
             setTimeout(() => {
                 answer.click();
-                retry(250, () => {
+                retry(0, () => {
                     if (document.getElementById("next")) {
                         document.getElementById("next").click();
                     } else {
                         document.getElementById("finish").click();
                     }
                 });
-            }, 1000);
+            }, 0);
         } else {
             answer.style.cssText = `background-color: #5787AE !important;`
         }
     }
 };
 
-retry(250, answer);
+retry(0, answer);
