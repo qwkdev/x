@@ -31,4 +31,8 @@ function main() {
     }
 }
 
+setTimeout(() => {
+    retry(500, location.replace(window.location.href));
+}, 10000);
+
 retry(500, main);
