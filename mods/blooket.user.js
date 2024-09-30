@@ -45,11 +45,11 @@ retry(500, () => {
         let s, l = document.createElement("div");
         t.appendChild(l), l.style.width = "100%", l.style.height = "35px", l.style.paddingTop = "2px", l.style.fontSize = "1.5rem", l.style.textAlign = "center", l.innerHTML = 'Blooket Hacks <span style="font-size: .75rem">v5.2.9</span>';
         let i = document.createElement("button");
-        l.appendChild(i), i.style.background = "transparent", i.style.color = "#ffffff", i.style.height = "45px", i.style.width = "45px", i.style.border = "none", i.style.cursor = "pointer", i.style.position = "absolute", i.style.top = "-8px", i.style.right = "-10px", i.style.fontSize = "24px", i.style.borderRadius = "10px", i.style.fontFamily = "Nunito", i.style.fontWeight = "bolder", i.style.paddingTop = "10px", i.style.paddingRight = "15px", i.innerText = "X", i.onclick = () => {
+        l.appendChild(i), i.style.background = "transparent", i.style.color = "#ff0000", i.style.height = "45px", i.style.width = "45px", i.style.border = "none", i.style.cursor = "pointer", i.style.position = "absolute", i.style.top = "-8px", i.style.right = "-10px", i.style.fontSize = "24px", i.style.borderRadius = "10px", i.style.fontFamily = "Nunito", i.style.fontWeight = "bolder", i.style.paddingTop = "10px", i.style.paddingRight = "15px", i.innerText = "X", i.onclick = () => {
             t.remove(), clearInterval(s), removeEventListener("keypress", M)
         };
         let d = document.createElement("button");
-        l.appendChild(d), d.style.background = "transparent", d.style.color = "#ff0000", d.style.height = "45px", d.style.width = "45px", d.style.border = "none", d.style.cursor = "pointer", d.style.position = "absolute", d.style.top = "-14px", d.style.left = "-8px", d.style.fontSize = "32px", d.style.borderRadius = "10px", d.style.fontFamily = "Nunito", d.style.fontWeight = "bolder", d.style.paddingTop = "10px", d.style.paddingLeft = "15px", d.innerText = "-", d.onclick = () => {
+        l.appendChild(d), d.style.background = "transparent", d.style.color = "#ffffff", d.style.height = "45px", d.style.width = "45px", d.style.border = "none", d.style.cursor = "pointer", d.style.position = "absolute", d.style.top = "-14px", d.style.left = "-8px", d.style.fontSize = "32px", d.style.borderRadius = "10px", d.style.fontFamily = "Nunito", d.style.fontWeight = "bolder", d.style.paddingTop = "10px", d.style.paddingLeft = "15px", d.innerText = "-", d.onclick = () => {
             c.hidden = !c.hidden
         };
         let c = document.createElement("div"),
