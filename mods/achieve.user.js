@@ -4651,8 +4651,8 @@ async function retry(delay, ref, ...args) {
 }
 
 function changeMode() {
-    GM_setValue('autoMode', (GM_getValue('autoMode', 0) + 1) % 3);
-    document.getElementById("autoModeButton").innerText = "Mode: " + ["Manual", "Auto", "Full Auto"][GM_getValue('autoMode', 0)];
+    GM_setValue('autoMode', (GM_getValue('autoMode', 2) + 1) % 3);
+    document.getElementById("autoModeButton").innerText = "Mode: " + ["Manual", "Auto", "Full Auto"][GM_getValue('autoMode', 2)];
     setTimeout(() => {
         document.getElementById("navbarSettings").click();
     }, 100);
@@ -4661,7 +4661,7 @@ function changeMode() {
 function answer() {
     const settings = document.getElementById("navbarSettings").parentElement.querySelector(".dropdown-menu");
     const btn = document.createElement("button");
-    const txt = document.createTextNode("Mode: " + ["Manual", "Auto", "Full Auto"][GM_getValue('autoMode', 0)]);
+    const txt = document.createTextNode("Mode: " + ["Manual", "Auto", "Full Auto"][GM_getValue('autoMode', 2)]);
     btn.appendChild(txt);
     btn.onclick = changeMode;
     btn.style.cssText = `border: none; width: 100%; height: 100%;`;
@@ -4680,11 +4680,11 @@ function answer() {
             setTimeout(() => {
                 document.getElementById('text-answer').value = answertxt;
             }, 0);
-            if (GM_getValue('autoMode', 0) === 1) {
+            if (GM_getValue('autoMode', 2) === 1) {
                 setTimeout(() => {
                     document.getElementById("submit-answer-button").click();
                 }, 0);
-            } else if (GM_getValue('autoMode', 0) === 2){
+            } else if (GM_getValue('autoMode', 2) === 2){
                 setTimeout(() => {
                     document.getElementById("submit-answer-button").click();
                 }, 0);
@@ -4724,11 +4724,11 @@ function answer() {
                 }
             }
         }
-        if (GM_getValue('autoMode', 0) === 1) {
+        if (GM_getValue('autoMode', 2) === 1) {
             setTimeout(() => {
                 answer.click();
             }, 0);
-        } else if (GM_getValue('autoMode', 0) === 2) {
+        } else if (GM_getValue('autoMode', 2) === 2) {
             setTimeout(() => {
                 answer.click();
                 retry(0, () => {
