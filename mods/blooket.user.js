@@ -49,7 +49,7 @@ retry(500, () => {
             t.remove(), clearInterval(s), removeEventListener("keypress", M)
         };
         let d = document.createElement("button");
-        l.appendChild(d), d.style.background = "transparent", d.style.color = "#ffffff", d.style.height = "45px", d.style.width = "45px", d.style.border = "none", d.style.cursor = "pointer", d.style.position = "absolute", d.style.top = "-14px", d.style.left = "-8px", d.style.fontSize = "32px", d.style.borderRadius = "10px", d.style.fontFamily = "Nunito", d.style.fontWeight = "bolder", d.style.paddingTop = "10px", d.style.paddingLeft = "15px", d.innerText = "-", d.onclick = () => {
+        l.appendChild(d), d.style.background = "transparent", d.style.color = "#ff0000", d.style.height = "45px", d.style.width = "45px", d.style.border = "none", d.style.cursor = "pointer", d.style.position = "absolute", d.style.top = "-14px", d.style.left = "-8px", d.style.fontSize = "32px", d.style.borderRadius = "10px", d.style.fontFamily = "Nunito", d.style.fontWeight = "bolder", d.style.paddingTop = "10px", d.style.paddingLeft = "15px", d.innerText = "-", d.onclick = () => {
             c.hidden = !c.hidden
         };
         let c = document.createElement("div"),
