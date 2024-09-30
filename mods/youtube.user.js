@@ -1,28 +1,16 @@
 // ==UserScript==
-// @name            Youtube Age/Login Bypass
+// @name            YouTube Age Restriction Bypass
 // @description     Watch age restricted videos on YouTube without login and without age verification
-// @author          XMODS
-// @version         2
-// @namespace       https://github.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass/
-// @supportURL      https://github.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass/issues
-// @license         MIT
-// @match           *://www.youtube.com/*
-// @match           *://m.youtube.com/*
-// @match           *://www.youtube-nocookie.com/*
-// @match           *://music.youtube.com/*
+// @version         2.5.11
+// @author          Zerody (https://github.com/zerodytrash)
+// @namespace       xmods
+// @match           https://www.youtube.com/*
+// @match           https://www.youtube-nocookie.com/*
+// @match           https://m.youtube.com/*
+// @match           https://music.youtube.com/*
 // @grant           none
 // @run-at          document-start
-// @compatible      chrome Chrome + Tampermonkey or Violentmonkey
-// @compatible      firefox Firefox + Greasemonkey or Tampermonkey or Violentmonkey
-// @compatible      opera Opera + Tampermonkey or Violentmonkey
-// @compatible      edge Edge + Tampermonkey or Violentmonkey
-// @compatible      safari Safari + Tampermonkey or Violentmonkey
 // ==/UserScript==
-
-/*
-    This is a transpiled version to achieve a clean code base and better browser compatibility.
-    You can find the nicely readable source code at https://github.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass
-*/
 
 (function iife(ranOnce) {
     // Trick to get around the sandbox restrictions in Greasemonkey (Firefox)
@@ -40,7 +28,7 @@
     // You can host your own account proxy instance. See https://github.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass/tree/main/account-proxy
     // To learn what information is transferred, please read: https://github.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass#privacy
     const ACCOUNT_PROXY_SERVER_HOST = 'https://youtube-proxy.zerody.one';
-    const VIDEO_PROXY_SERVER_HOST = 'https://phx.4everproxy.com';
+    const VIDEO_PROXY_SERVER_HOST = 'https://ny.4everproxy.com';
 
     // User needs to confirm the unlock process on embedded player?
     let ENABLE_UNLOCK_CONFIRMATION_EMBED = true;
@@ -114,6 +102,18 @@
         }
     }
 
+    // WORKAROUND: TypeError: Failed to set the 'innerHTML' property on 'Element': This document requires 'TrustedHTML' assignment.
+    if (window.trustedTypes && trustedTypes.createPolicy) {
+        if (!trustedTypes.defaultPolicy) {
+            const passThroughFn = (x) => x;
+            trustedTypes.createPolicy('default', {
+                createHTML: passThroughFn,
+                createScriptURL: passThroughFn,
+                createScript: passThroughFn,
+            });
+        }
+    }
+
     function createElement(tagName, options) {
         const node = document.createElement(tagName);
         options && Object.assign(node, options);
@@ -164,8 +164,7 @@
     function getSignatureTimestamp() {
         return (
             getYtcfgValue('STS')
-            || (() => {
-                var _document$querySelect;
+            || ((_document$querySelect) => {
                 // STS is missing on embedded player. Retrieve from player base script as fallback...
                 const playerBaseJsPath = (_document$querySelect = document.querySelector('script[src*="/base.js"]')) === null || _document$querySelect === void 0
                     ? void 0
@@ -231,7 +230,7 @@
             }
         }, 100);
 
-        if (timeout) {
+        {
             setTimeout(() => {
                 clearInterval(checkDomInterval);
                 deferred.reject();
@@ -241,64 +240,43 @@
         return deferred;
     }
 
-    function parseRelativeUrl(url) {
-        if (typeof url !== 'string') {
-            return null;
-        }
-
-        if (url.indexOf('/') === 0) {
-            url = window.location.origin + url;
-        }
-
-        try {
-            return url.indexOf('https://') === 0 ? new window.URL(url) : null;
-        } catch {
-            return null;
-        }
-    }
-
     function isWatchNextObject(parsedData) {
-        var _parsedData$currentVi, _parsedData$currentVi2;
+        var _parsedData$currentVi;
         if (
             !(parsedData !== null && parsedData !== void 0 && parsedData.contents)
             || !(parsedData !== null && parsedData !== void 0 && (_parsedData$currentVi = parsedData.currentVideoEndpoint) !== null && _parsedData$currentVi !== void 0
-                && (_parsedData$currentVi2 = _parsedData$currentVi.watchEndpoint) !== null && _parsedData$currentVi2 !== void 0 && _parsedData$currentVi2.videoId)
+                && (_parsedData$currentVi = _parsedData$currentVi.watchEndpoint) !== null && _parsedData$currentVi !== void 0 && _parsedData$currentVi.videoId)
         ) return false;
         return !!parsedData.contents.twoColumnWatchNextResults || !!parsedData.contents.singleColumnWatchNextResults;
     }
 
     function isWatchNextSidebarEmpty(parsedData) {
-        var _parsedData$contents2, _parsedData$contents3, _parsedData$contents4, _parsedData$contents5, _content$find;
+        var _parsedData$contents2, _content$find;
         if (isDesktop) {
-            var _parsedData$contents, _parsedData$contents$, _parsedData$contents$2, _parsedData$contents$3;
+            var _parsedData$contents;
             // WEB response layout
             const result = (_parsedData$contents = parsedData.contents) === null || _parsedData$contents === void 0
+                    || (_parsedData$contents = _parsedData$contents.twoColumnWatchNextResults) === null || _parsedData$contents === void 0
+                    || (_parsedData$contents = _parsedData$contents.secondaryResults) === null || _parsedData$contents === void 0
+                    || (_parsedData$contents = _parsedData$contents.secondaryResults) === null || _parsedData$contents === void 0
                 ? void 0
-                : (_parsedData$contents$ = _parsedData$contents.twoColumnWatchNextResults) === null || _parsedData$contents$ === void 0
-                ? void 0
-                : (_parsedData$contents$2 = _parsedData$contents$.secondaryResults) === null || _parsedData$contents$2 === void 0
-                ? void 0
-                : (_parsedData$contents$3 = _parsedData$contents$2.secondaryResults) === null || _parsedData$contents$3 === void 0
-                ? void 0
-                : _parsedData$contents$3.results;
+                : _parsedData$contents.results;
             return !result;
         }
 
         // MWEB response layout
         const content = (_parsedData$contents2 = parsedData.contents) === null || _parsedData$contents2 === void 0
+                || (_parsedData$contents2 = _parsedData$contents2.singleColumnWatchNextResults) === null || _parsedData$contents2 === void 0
+                || (_parsedData$contents2 = _parsedData$contents2.results) === null || _parsedData$contents2 === void 0
+                || (_parsedData$contents2 = _parsedData$contents2.results) === null || _parsedData$contents2 === void 0
             ? void 0
-            : (_parsedData$contents3 = _parsedData$contents2.singleColumnWatchNextResults) === null || _parsedData$contents3 === void 0
-            ? void 0
-            : (_parsedData$contents4 = _parsedData$contents3.results) === null || _parsedData$contents4 === void 0
-            ? void 0
-            : (_parsedData$contents5 = _parsedData$contents4.results) === null || _parsedData$contents5 === void 0
-            ? void 0
-            : _parsedData$contents5.contents;
-        const result = content === null || content === void 0 ? void 0 : (_content$find = content.find((e) => {
-                        var _e$itemSectionRendere;
-                        return ((_e$itemSectionRendere = e.itemSectionRenderer) === null || _e$itemSectionRendere === void 0 ? void 0 : _e$itemSectionRendere.targetId)
-                            === 'watch-next-feed';
-                    })) === null || _content$find === void 0
+            : _parsedData$contents2.contents;
+        const result = content === null || content === void 0 || (_content$find = content.find((e) => {
+                    var _e$itemSectionRendere;
+                    return ((_e$itemSectionRendere = e.itemSectionRenderer) === null || _e$itemSectionRendere === void 0 ? void 0 : _e$itemSectionRendere.targetId)
+                        === 'watch-next-feed';
+                })) === null
+                || _content$find === void 0
             ? void 0
             : _content$find.itemSectionRenderer;
         return typeof result !== 'object';
@@ -314,14 +292,7 @@
     }
 
     function isAgeRestricted(playabilityStatus) {
-        var _playabilityStatus$er,
-            _playabilityStatus$er2,
-            _playabilityStatus$er3,
-            _playabilityStatus$er4,
-            _playabilityStatus$er5,
-            _playabilityStatus$er6,
-            _playabilityStatus$er7,
-            _playabilityStatus$er8;
+        var _playabilityStatus$er;
         if (!(playabilityStatus !== null && playabilityStatus !== void 0 && playabilityStatus.status)) return false;
         if (playabilityStatus.desktopLegacyAgeGateReason) return true;
         if (Config.UNLOCKABLE_PLAYABILITY_STATUSES.includes(playabilityStatus.status)) return true;
@@ -331,49 +302,33 @@
         return (
             isEmbed
             && ((_playabilityStatus$er = playabilityStatus.errorScreen) === null || _playabilityStatus$er === void 0
+                    || (_playabilityStatus$er = _playabilityStatus$er.playerErrorMessageRenderer) === null || _playabilityStatus$er === void 0
+                    || (_playabilityStatus$er = _playabilityStatus$er.reason) === null || _playabilityStatus$er === void 0
+                    || (_playabilityStatus$er = _playabilityStatus$er.runs) === null || _playabilityStatus$er === void 0
+                    || (_playabilityStatus$er = _playabilityStatus$er.find((x) => x.navigationEndpoint)) === null || _playabilityStatus$er === void 0
+                    || (_playabilityStatus$er = _playabilityStatus$er.navigationEndpoint) === null || _playabilityStatus$er === void 0
+                    || (_playabilityStatus$er = _playabilityStatus$er.urlEndpoint) === null || _playabilityStatus$er === void 0
+                    || (_playabilityStatus$er = _playabilityStatus$er.url) === null || _playabilityStatus$er === void 0
                 ? void 0
-                : (_playabilityStatus$er2 = _playabilityStatus$er.playerErrorMessageRenderer) === null || _playabilityStatus$er2 === void 0
-                ? void 0
-                : (_playabilityStatus$er3 = _playabilityStatus$er2.reason) === null || _playabilityStatus$er3 === void 0
-                ? void 0
-                : (_playabilityStatus$er4 = _playabilityStatus$er3.runs) === null || _playabilityStatus$er4 === void 0
-                ? void 0
-                : (_playabilityStatus$er5 = _playabilityStatus$er4.find((x) => x.navigationEndpoint)) === null || _playabilityStatus$er5 === void 0
-                ? void 0
-                : (_playabilityStatus$er6 = _playabilityStatus$er5.navigationEndpoint) === null || _playabilityStatus$er6 === void 0
-                ? void 0
-                : (_playabilityStatus$er7 = _playabilityStatus$er6.urlEndpoint) === null || _playabilityStatus$er7 === void 0
-                ? void 0
-                : (_playabilityStatus$er8 = _playabilityStatus$er7.url) === null || _playabilityStatus$er8 === void 0
-                ? void 0
-                : _playabilityStatus$er8.includes('/2802167'))
+                : _playabilityStatus$er.includes('/2802167'))
         );
     }
 
     function isSearchResult(parsedData) {
-        var _parsedData$contents6, _parsedData$contents7, _parsedData$contents8, _parsedData$onRespons, _parsedData$onRespons2, _parsedData$onRespons3;
+        var _parsedData$contents3, _parsedData$contents4, _parsedData$onRespons;
         return (
-            typeof (parsedData === null || parsedData === void 0
+            typeof (parsedData === null || parsedData === void 0 || (_parsedData$contents3 = parsedData.contents) === null || _parsedData$contents3 === void 0
                     ? void 0
-                    : (_parsedData$contents6 = parsedData.contents) === null || _parsedData$contents6 === void 0
+                    : _parsedData$contents3.twoColumnSearchResultsRenderer) === 'object' // Desktop initial results
+            || (parsedData === null || parsedData === void 0 || (_parsedData$contents4 = parsedData.contents) === null || _parsedData$contents4 === void 0
+                        || (_parsedData$contents4 = _parsedData$contents4.sectionListRenderer) === null || _parsedData$contents4 === void 0
                     ? void 0
-                    : _parsedData$contents6.twoColumnSearchResultsRenderer) === 'object' // Desktop initial results
-            || (parsedData === null || parsedData === void 0
+                    : _parsedData$contents4.targetId) === 'search-feed' // Mobile initial results
+            || (parsedData === null || parsedData === void 0 || (_parsedData$onRespons = parsedData.onResponseReceivedCommands) === null || _parsedData$onRespons === void 0
+                        || (_parsedData$onRespons = _parsedData$onRespons.find((x) => x.appendContinuationItemsAction)) === null || _parsedData$onRespons === void 0
+                        || (_parsedData$onRespons = _parsedData$onRespons.appendContinuationItemsAction) === null || _parsedData$onRespons === void 0
                     ? void 0
-                    : (_parsedData$contents7 = parsedData.contents) === null || _parsedData$contents7 === void 0
-                    ? void 0
-                    : (_parsedData$contents8 = _parsedData$contents7.sectionListRenderer) === null || _parsedData$contents8 === void 0
-                    ? void 0
-                    : _parsedData$contents8.targetId) === 'search-feed' // Mobile initial results
-            || (parsedData === null || parsedData === void 0
-                    ? void 0
-                    : (_parsedData$onRespons = parsedData.onResponseReceivedCommands) === null || _parsedData$onRespons === void 0
-                    ? void 0
-                    : (_parsedData$onRespons2 = _parsedData$onRespons.find((x) => x.appendContinuationItemsAction)) === null || _parsedData$onRespons2 === void 0
-                    ? void 0
-                    : (_parsedData$onRespons3 = _parsedData$onRespons2.appendContinuationItemsAction) === null || _parsedData$onRespons3 === void 0
-                    ? void 0
-                    : _parsedData$onRespons3.targetId) === 'search-feed' // Desktop & Mobile scroll continuation
+                    : _parsedData$onRespons.targetId) === 'search-feed' // Desktop & Mobile scroll continuation
         );
     }
 
@@ -513,40 +468,52 @@
 
         window.Request = new Proxy(window.Request, {
             construct(target, args) {
-                const [url, options] = args;
+                let [url, options] = args;
                 try {
-                    const parsedUrl = parseRelativeUrl(url);
-                    const modifiedUrl = onRequestCreate(parsedUrl, options);
+                    if (typeof url === 'string') {
+                        if (url.indexOf('/') === 0) {
+                            url = window.location.origin + url;
+                        }
 
-                    if (modifiedUrl) {
-                        args[0] = modifiedUrl.toString();
+                        if (url.indexOf('https://') !== -1) {
+                            const modifiedUrl = onRequestCreate(url, options);
+
+                            if (modifiedUrl) {
+                                args[0] = modifiedUrl;
+                            }
+                        }
                     }
                 } catch (err) {
                     error(err, `Failed to intercept Request()`);
                 }
 
-                return Reflect.construct(...arguments);
+                return Reflect.construct(target, args);
             },
         });
     }
 
     function attach(onXhrOpenCalled) {
-        XMLHttpRequest.prototype.open = function(method, url) {
+        XMLHttpRequest.prototype.open = function(...args) {
+            let [method, url] = args;
             try {
-                let parsedUrl = parseRelativeUrl(url);
+                if (typeof url === 'string') {
+                    if (url.indexOf('/') === 0) {
+                        url = window.location.origin + url;
+                    }
 
-                if (parsedUrl) {
-                    const modifiedUrl = onXhrOpenCalled(method, parsedUrl, this);
+                    if (url.indexOf('https://') !== -1) {
+                        const modifiedUrl = onXhrOpenCalled(method, url, this);
 
-                    if (modifiedUrl) {
-                        arguments[1] = modifiedUrl.toString();
+                        if (modifiedUrl) {
+                            args[1] = modifiedUrl;
+                        }
                     }
                 }
             } catch (err) {
                 error(err, `Failed to intercept XMLHttpRequest.open()`);
             }
 
-            nativeXMLHttpRequestOpen.apply(this, arguments);
+            nativeXMLHttpRequestOpen.apply(this, args);
         };
     }
 
@@ -650,9 +617,15 @@
     };
 
     function getUnlockStrategies$1(videoId, lastPlayerUnlockReason) {
+        var _getYtcfgValue$client;
         const clientName = getYtcfgValue('INNERTUBE_CLIENT_NAME') || 'WEB';
         const clientVersion = getYtcfgValue('INNERTUBE_CLIENT_VERSION') || '2.20220203.04.00';
         const hl = getYtcfgValue('HL');
+        const userInterfaceTheme = (_getYtcfgValue$client = getYtcfgValue('INNERTUBE_CONTEXT').client.userInterfaceTheme) !== null && _getYtcfgValue$client !== void 0
+            ? _getYtcfgValue$client
+            : document.documentElement.hasAttribute('dark')
+            ? 'USER_INTERFACE_THEME_DARK'
+            : 'USER_INTERFACE_THEME_LIGHT';
 
         return [
             /**
@@ -666,9 +639,10 @@
                 payload: {
                     context: {
                         client: {
-                            clientName: clientName,
-                            clientVersion: clientVersion,
+                            clientName,
+                            clientVersion,
                             hl,
+                            userInterfaceTheme,
                         },
                     },
                     videoId,
@@ -689,6 +663,7 @@
                     clientName,
                     clientVersion,
                     hl,
+                    userInterfaceTheme,
                     isEmbed: +isEmbed,
                     isConfirmed: +isConfirmed,
                 },
@@ -817,7 +792,7 @@
     }
 
     var buttonTemplate =
-        '<div style="margin-top: 15px !important; padding: 3px 10px 3px 10px; margin: 0px auto; background-color: #4d4d4d; width: fit-content; font-size: 1.2em; text-transform: uppercase; border-radius: 3px; cursor: pointer;">\r\n    <div class="button-text"></div>\r\n</div>';
+        '<div style="margin-top: 15px !important; padding: 3px 10px 3px 10px; margin: 0px auto; background-color: #4d4d4d; width: fit-content; font-size: 1.2em; text-transform: uppercase; border-radius: 3px; cursor: pointer;">\n    <div class="button-text"></div>\n</div>';
 
     let buttons = {};
 
@@ -825,10 +800,6 @@
         const errorScreenElement = await waitForElement('.ytp-error', 2000);
         const buttonElement = createElement('div', { class: 'button-container', innerHTML: buttonTemplate });
         buttonElement.getElementsByClassName('button-text')[0].innerText = text;
-
-        if (backgroundColor) {
-            buttonElement.querySelector(':scope > div').style['background-color'] = backgroundColor;
-        }
 
         if (typeof onClick === 'function') {
             buttonElement.addEventListener('click', onClick);
@@ -896,8 +867,7 @@
         };
     }
 
-    async function show(message) {
-        let duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 5;
+    async function show(message, duration = 5) {
         if (!Config.ENABLE_UNLOCK_NOTIFICATION) return;
         if (isEmbed) return;
 
@@ -916,8 +886,8 @@
     var Toast = { show };
 
     const messagesMap = {
-        success: 'Age-restricted video successfully unlocked!',
-        fail: 'Unable to unlock this video 🙁 - More information in the developer console',
+        success: 'Age-restricted video unlocked',
+        fail: 'Error when bypassing, More information in the developer console',
     };
 
     let lastPlayerUnlockVideoId = null;
@@ -1019,7 +989,7 @@
 
         // Try every strategy until one of them works
         unlockStrategies.every((strategy, index) => {
-            var _unlockedPlayerRespon6, _unlockedPlayerRespon7;
+            var _unlockedPlayerRespon6;
             // Skip strategy if authentication is required and the user is not logged in
             if (strategy.skip || strategy.requiresAuth && !isUserLoggedIn()) return true;
 
@@ -1031,13 +1001,52 @@
                 error(err, `Player Unlock Method ${index + 1} failed with exception`);
             }
 
-            return !Config.VALID_PLAYABILITY_STATUSES.includes(
+            const isStatusValid = Config.VALID_PLAYABILITY_STATUSES.includes(
                 (_unlockedPlayerRespon6 = unlockedPlayerResponse) === null || _unlockedPlayerRespon6 === void 0
+                    || (_unlockedPlayerRespon6 = _unlockedPlayerRespon6.playabilityStatus) === null || _unlockedPlayerRespon6 === void 0
                     ? void 0
-                    : (_unlockedPlayerRespon7 = _unlockedPlayerRespon6.playabilityStatus) === null || _unlockedPlayerRespon7 === void 0
-                    ? void 0
-                    : _unlockedPlayerRespon7.status,
+                    : _unlockedPlayerRespon6.status,
             );
+
+            if (isStatusValid) {
+                var _unlockedPlayerRespon7;
+                /**
+                 * Workaround: https://github.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass/issues/191
+                 *
+                 * YouTube checks if the `trackingParams` in the response matches the decoded `trackingParam` in `responseContext.mainAppWebResponseContext`.
+                 * However, sometimes the response does not include the `trackingParam` in the `responseContext`, causing the check to fail.
+                 *
+                 * This workaround addresses the issue by hardcoding the `trackingParams` in the response context.
+                 */
+                if (
+                    !unlockedPlayerResponse.trackingParams
+                    || !((_unlockedPlayerRespon7 = unlockedPlayerResponse.responseContext) !== null && _unlockedPlayerRespon7 !== void 0
+                        && (_unlockedPlayerRespon7 = _unlockedPlayerRespon7.mainAppWebResponseContext) !== null && _unlockedPlayerRespon7 !== void 0
+                        && _unlockedPlayerRespon7.trackingParam)
+                ) {
+                    unlockedPlayerResponse.trackingParams = 'CAAQu2kiEwjor8uHyOL_AhWOvd4KHavXCKw=';
+                    unlockedPlayerResponse.responseContext = {
+                        mainAppWebResponseContext: {
+                            trackingParam: 'kx_fmPxhoPZRzgL8kzOwANUdQh8ZwHTREkw2UqmBAwpBYrzRgkuMsNLBwOcCE59TDtslLKPQ-SS',
+                        },
+                    };
+                }
+
+                /**
+                 * Workaround: Account proxy response currently does not include `playerConfig`
+                 *
+                 * Stays here until we rewrite the account proxy to only include the necessary and bare minimum response
+                 */
+                if (strategy.payload.startTimeSecs && strategy.name === 'Account Proxy') {
+                    unlockedPlayerResponse.playerConfig = {
+                        playbackStartConfig: {
+                            startSeconds: strategy.payload.startTimeSecs,
+                        },
+                    };
+                }
+            }
+
+            return !isStatusValid;
         });
 
         // Cache response to prevent a flood of requests in case youtube processes a blocked response mutiple times.
@@ -1101,7 +1110,7 @@
     }
 
     function mergeNextResponse(originalNextResponse, unlockedNextResponse) {
-        var _unlockedNextResponse, _unlockedNextResponse2, _unlockedNextResponse3, _unlockedNextResponse4, _unlockedNextResponse5;
+        var _unlockedNextResponse;
         if (isDesktop) {
             // Transfer WatchNextResults to original response
             originalNextResponse.contents.twoColumnWatchNextResults.secondaryResults = unlockedNextResponse.contents.twoColumnWatchNextResults.secondaryResults;
@@ -1109,12 +1118,10 @@
             // Transfer video description to original response
             const originalVideoSecondaryInfoRenderer = originalNextResponse.contents.twoColumnWatchNextResults.results.results.contents.find(
                 (x) => x.videoSecondaryInfoRenderer,
-            )
-                .videoSecondaryInfoRenderer;
+            ).videoSecondaryInfoRenderer;
             const unlockedVideoSecondaryInfoRenderer = unlockedNextResponse.contents.twoColumnWatchNextResults.results.results.contents.find(
                 (x) => x.videoSecondaryInfoRenderer,
-            )
-                .videoSecondaryInfoRenderer;
+            ).videoSecondaryInfoRenderer;
 
             // TODO: Throw if description not found?
             if (unlockedVideoSecondaryInfoRenderer.description) {
@@ -1128,16 +1135,12 @@
 
         // Transfer WatchNextResults to original response
         const unlockedWatchNextFeed = (_unlockedNextResponse = unlockedNextResponse.contents) === null || _unlockedNextResponse === void 0
+                || (_unlockedNextResponse = _unlockedNextResponse.singleColumnWatchNextResults) === null || _unlockedNextResponse === void 0
+                || (_unlockedNextResponse = _unlockedNextResponse.results) === null || _unlockedNextResponse === void 0
+                || (_unlockedNextResponse = _unlockedNextResponse.results) === null || _unlockedNextResponse === void 0
+                || (_unlockedNextResponse = _unlockedNextResponse.contents) === null || _unlockedNextResponse === void 0
             ? void 0
-            : (_unlockedNextResponse2 = _unlockedNextResponse.singleColumnWatchNextResults) === null || _unlockedNextResponse2 === void 0
-            ? void 0
-            : (_unlockedNextResponse3 = _unlockedNextResponse2.results) === null || _unlockedNextResponse3 === void 0
-            ? void 0
-            : (_unlockedNextResponse4 = _unlockedNextResponse3.results) === null || _unlockedNextResponse4 === void 0
-            ? void 0
-            : (_unlockedNextResponse5 = _unlockedNextResponse4.contents) === null || _unlockedNextResponse5 === void 0
-            ? void 0
-            : _unlockedNextResponse5.find(
+            : _unlockedNextResponse.find(
                 (x) => {
                     var _x$itemSectionRendere;
                     return ((_x$itemSectionRendere = x.itemSectionRenderer) === null || _x$itemSectionRendere === void 0 ? void 0 : _x$itemSectionRendere.targetId)
@@ -1168,27 +1171,27 @@
      * - Add "content check ok" flags to request bodys
      */
     function handleXhrOpen(method, url, xhr) {
-        let proxyUrl = unlockGoogleVideo(url);
+        const url_obj = new URL(url);
+        let proxyUrl = unlockGoogleVideo(url_obj);
         if (proxyUrl) {
             // Exclude credentials from XMLHttpRequest
             Object.defineProperty(xhr, 'withCredentials', {
                 set: () => {},
                 get: () => false,
             });
-            return proxyUrl;
+            return proxyUrl.toString();
         }
 
-        if (url.pathname.indexOf('/youtubei/') === 0) {
+        if (url_obj.pathname.indexOf('/youtubei/') === 0) {
             // Store auth headers in storage for further usage.
-            attach$4(xhr, 'setRequestHeader', (_ref2) => {
-                let [headerName, headerValue] = _ref2;
+            attach$4(xhr, 'setRequestHeader', ([headerName, headerValue]) => {
                 if (Config.GOOGLE_AUTH_HEADER_NAMES.includes(headerName)) {
                     set(headerName, headerValue);
                 }
             });
         }
 
-        if (Config.SKIP_CONTENT_WARNINGS && method === 'POST' && ['/youtubei/v1/player', '/youtubei/v1/next'].includes(url.pathname)) {
+        if (Config.SKIP_CONTENT_WARNINGS && method === 'POST' && ['/youtubei/v1/player', '/youtubei/v1/next'].includes(url_obj.pathname)) {
             // Add content check flags to player and next request (this will skip content warnings)
             attach$4(xhr, 'send', (args) => {
                 if (typeof args[0] === 'string') {
@@ -1205,16 +1208,17 @@
      * - Add "content check ok" flags to request bodys
      */
     function handleFetchRequest(url, requestOptions) {
-        let newGoogleVideoUrl = unlockGoogleVideo(url);
+        const url_obj = new URL(url);
+        const newGoogleVideoUrl = unlockGoogleVideo(url_obj);
         if (newGoogleVideoUrl) {
             // Exclude credentials from Fetch Request
             if (requestOptions.credentials) {
                 requestOptions.credentials = 'omit';
             }
-            return newGoogleVideoUrl;
+            return newGoogleVideoUrl.toString();
         }
 
-        if (url.pathname.indexOf('/youtubei/') === 0 && isObject(requestOptions.headers)) {
+        if (url_obj.pathname.indexOf('/youtubei/') === 0 && isObject(requestOptions.headers)) {
             // Store auth headers in authStorage for further usage.
             for (let headerName in requestOptions.headers) {
                 if (Config.GOOGLE_AUTH_HEADER_NAMES.includes(headerName)) {
@@ -1223,7 +1227,7 @@
             }
         }
 
-        if (Config.SKIP_CONTENT_WARNINGS && ['/youtubei/v1/player', '/youtubei/v1/next'].includes(url.pathname)) {
+        if (Config.SKIP_CONTENT_WARNINGS && ['/youtubei/v1/player', '/youtubei/v1/next'].includes(url_obj.pathname)) {
             // Add content check flags to player and next request (this will skip content warnings)
             requestOptions.body = setContentCheckOk(requestOptions.body);
         }
