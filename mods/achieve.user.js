@@ -3,7 +3,7 @@
 // @namespace   xmods
 // @match       https://achieve.hashtag-learning.co.uk/assess/question-page/
 // @grant       none
-// @version     2.3
+// @version     2.4
 // @author      xmods
 // @grant       GM_setValue
 // @grant       GM_getValue
@@ -4677,25 +4677,25 @@ function answer() {
             }
         }
         if (answertxt) {
-            setTimeout(() => {
+            retry(0, () => {
                 document.getElementById('text-answer').value = answertxt;
-            }, 0);
-            if (GM_getValue('autoMode', 2) === 1) {
-                setTimeout(() => {
-                    document.getElementById("submit-answer-button").click();
-                }, 0);
-            } else if (GM_getValue('autoMode', 2) === 2){
-                setTimeout(() => {
-                    document.getElementById("submit-answer-button").click();
-                }, 0);
-                setTimeout(() => {
-                    if (document.getElementById("next")) {
-                        document.getElementById("next").click();
-                    } else {
-                        document.getElementById("finish").click();
-                    }
-                }, 0);
-            }
+                if (GM_getValue('autoMode', 2) === 1) {
+                    retry(0, () => {
+                        document.getElementById("submit-answer-button").click();
+                    });
+                } else if (GM_getValue('autoMode', 2) === 2) {
+                    retry(0, () => {
+                        document.getElementById("submit-answer-button").click();
+                        retry(0, () => {
+                            if (document.getElementById("next")) {
+                                document.getElementById("next").click();
+                            } else {
+                                document.getElementById("finish").click();
+                            }
+                        });
+                    });
+                }
+            });
         }
     } else {
         // WARNING: Will break if answer with needed id is a dupe question [1] or if there are 2 answer dupes present [2]
@@ -4717,6 +4717,7 @@ function answer() {
         if (dupKey && data[question][0].split(`##id=`)[0] == dupKey) {
             answer = document.getElementById(data[question][0].split(`##id=`)[1]);
         } else {
+          console.log(question, data[question]);
             for (let i of data[question]) {
                 if (i in buttons) {
                     answer = document.getElementById(buttons[i]);
@@ -4725,11 +4726,11 @@ function answer() {
             }
         }
         if (GM_getValue('autoMode', 2) === 1) {
-            setTimeout(() => {
+            retry(0, () => {
                 answer.click();
-            }, 0);
+            });
         } else if (GM_getValue('autoMode', 2) === 2) {
-            setTimeout(() => {
+            retry(0, () => {
                 answer.click();
                 retry(0, () => {
                     if (document.getElementById("next")) {
@@ -4738,9 +4739,11 @@ function answer() {
                         document.getElementById("finish").click();
                     }
                 });
-            }, 0);
+            });
         } else {
-            answer.style.cssText = `background-color: #5787AE !important;`
+            retry(0, () => {
+                answer.style.cssText = `background-color: #5787AE !important;`
+            });
         }
     }
 };
