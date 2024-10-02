@@ -3,7 +3,7 @@
 // @namespace   xmods
 // @match       https://achieve.hashtag-learning.co.uk/assess/question-page/
 // @grant       none
-// @version     2.7
+// @version     2.8
 // @author      xmods
 // @grant       GM_setValue
 // @grant       GM_getValue
@@ -4758,5 +4758,12 @@ function answer() {
         }
     }
 };
+
+if (GM_getValue('autoMode', 2) === 2) {
+    // Auto refresh on full auto
+    setTimeout(() => {
+        retry(500, location.replace(window.location.href));
+    }, 7000);
+}
 
 retry(0, answer);
