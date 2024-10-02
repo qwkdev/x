@@ -3,7 +3,7 @@
 // @namespace   xmods
 // @match       https://achieve.hashtag-learning.co.uk/assess/question-page/
 // @grant       none
-// @version     2.6
+// @version     2.7
 // @author      xmods
 // @grant       GM_setValue
 // @grant       GM_getValue
@@ -4681,13 +4681,13 @@ function answer() {
 
     const question = document.querySelector(".card-header.question-card-header.pt-4.pb-4.border-secondary > .row.m-0 > .col").innerHTML.replace(/\s+/g, ' ').trim();
     if (document.getElementById("text-answer")) {
-        let answertxt = "";
+        let answertxt = null;
         for (let i of data[question]) {
             if (i[0] === ">") {
                 answertxt = i.slice(1); break;
             }
         }
-        if (answertxt) {
+        if (answertxt !== null) {
             retry(0, () => {
                 document.getElementById('text-answer').value = answertxt;
                 if (GM_getValue('autoMode', 2) === 1) {
