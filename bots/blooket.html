@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>XMODS</title>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400..800&display=swap" rel="stylesheet">
+	<style>
+		body {
+			margin: 0;
+			background: #080810;
+		}
+		#footer {
+			width: 100%;
+			height: 10vh;
+			position: fixed;
+			bottom: 0;
+
+			p {
+				background: rgba(245, 245, 255, 0.075);
+				border: 0.1vw solid rgba(255, 255, 255, 0.164);
+				border-bottom: none;
+				backdrop-filter: blur(10px);
+				border-top-left-radius: 1vh;
+				border-top-right-radius: 1vh;
+
+				width: max-content;
+				height: 10vh;
+				line-height: 10vh;
+				font-size: 3vh;
+				color: #ffffff;
+				font-family: "Montserrat", arial;
+				font-weight: 700;
+				text-align: center;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				margin: 0;
+				padding: 0 3vh;
+			}
+		}
+
+		p::selection,
+		h1::selection,
+		h2::selection,
+		a::selection {
+			background: #ffffff77;
+		}
+
+		.link-hover {
+			position: relative;
+			transition: .2s;
+			z-index: 2;
+
+			.underline {
+				width: 110%;
+				transform: translate(-4%, 0);
+				height: 1px;
+				background-color: #ffffff;
+				position: absolute;
+				bottom: 0;
+				transition: .2s;
+				z-index: -100;
+			}
+		}
+		.link-hover:hover {
+			color: #000000 !important;
+
+			.underline {
+				height: 100%;
+			}
+		}
+
+		#container {
+            width: calc(100% - 6vw);
+			height: calc(100vh);
+			margin: calc(3vw + 1vh) 3vw calc(3vw + 10vh) 3vw;
+			position: relative;
+
+			#menu {
+				position: absolute;
+				top: 0;
+				left: 50%;
+				transform: translateX(-50%);
+
+				width: 100%;
+				max-width: 70vh;
+				padding: 4vh;
+				padding-top: 0;
+				box-sizing: border-box;
+
+				background: rgba(245, 245, 255, .12);
+				border: 5px solid rgba(255, 255, 255, .15);
+				border-radius: 4vh;
+
+				h1 {
+					font-size: 5vh;
+					line-height: 5vh;
+					margin: 3vh 0;
+                    color: #ffffff;
+                    font-family: "Montserrat", arial;
+                    font-weight: 700;
+                    text-align: center;
+					width: 100%;
+				}
+
+				.inputs {
+					width: 100%;
+					display: grid;
+					grid-template-columns: 30% 65%;
+					column-gap: 5%;
+					row-gap: 1vh;
+					height: min-content;
+
+					p {
+						font-size: 3vh;
+                        line-height: 3vh;
+						margin: 1.5vh 0;
+                        color: #ffffff;
+                        font-family: "Montserrat", arial;
+                        font-weight: 700;
+					}
+					input[type="text"], input[type="number"], input[type="password"] {
+						width: calc(100% - 1.5vh);
+						padding-left: 1.5vh;
+						background: rgba(245, 245, 255, .12);
+                        border: none;
+                        font-size: 3vh;
+                        line-height: 3vh;
+						height: 100%;
+						min-height: 6vh;
+                        color: #ffffff;
+                        font-family: "Montserrat", arial;
+                        font-weight: 700;
+                        margin: 0;
+						border-radius: 10px;
+					}
+					input[type="text"]:focus, input[type="number"]:focus, input[type="password"]:focus {
+						outline: none;
+						border-bottom: 3px solid rgba(255, 255, 255, .15);
+						margin-bottom: -3px;
+					}
+					input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+					input[type=number] { -moz-appearance: textfield; }
+
+					.drop-container {
+						width: 100%;
+						height: 6vh;
+						position: relative;
+
+						.dropdown {
+							width: 100%;
+							height: 100%;
+							min-height: 6vh;
+							font-size: 3vh;
+							line-height: 3vh;
+							color: #ffffff;
+							font-family: "Montserrat", arial;
+							font-weight: 700;
+							margin: 0;
+							background: rgba(245, 245, 255, .12);
+							border: none;
+							border-radius: 10px;
+							padding: 0;
+							
+							display: grid;
+							grid-template-columns: 85% 15%;
+							
+							.content {
+								margin-left: 1.5vh;
+								font-size: 3vh;
+								line-height: 3vh;
+								text-align: left;
+							}
+							.svg {
+								position: relative;
+								width: 100%;
+								height: 100%;
+
+								svg {
+									width: 80%;
+									position: absolute;
+									top: 50%;
+									left: 50%;
+									transform: translate(-50%, -50%);
+
+									path {
+										stroke: rgba(255, 255, 255, .5);
+									}
+								}
+							}
+
+						}
+						.options {
+							width: 100%;
+							position: absolute;
+							top: 100%;
+							background: rgba(245, 245, 255, .12);
+							backdrop-filter: blur(10px);
+							border: none;
+							border-radius: 10px;
+
+							display: grid;
+							max-height: 18vh;
+							overflow-y: scroll;
+						}
+					}
+				}
+				.start {
+
+				}
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="menu">
+			<h1>Test Title</h1>
+			<div class="inputs">
+				<p>Label</p>
+				<input type="number" placeholder="123" name="id">
+				<p>Label</p>
+				<input type="number" placeholder="123" name="amt">
+				<p>Label</p>
+				<input type="text" placeholder="Example" name="name">
+				<p>Label</p>
+				<div class="drop-container">
+					<button class="dropdown" id="blook" onclick="toggleBlook()">
+						<p class="content">Example</p>
+						<div class="svg"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 10L12 15L17 10" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></div>
+					</button>
+					<div id="blooks" class="options" style="grid-template-columns: repeat(6, 1fr); display: none;"> <!-- inline style is hard-coded in js -->
+						<button onclick="setblook('id', 'Name', 'https://img')" style="width: 100%; height: 6vh; background: transparent; border: none; padding: 0;"><img style="width: 70%; height: 5vh; margin: .5vh 5%;" src="https://ac.blooket.com/marketassets/blooks/tenrec.svg"></button>
+						<button onclick="setblook('id', 'Name', 'https://img')" style="width: 100%; height: 6vh; background: transparent; border: none; padding: 0;"><img style="width: 70%; height: 5vh; margin: .5vh 5%;" src="https://ac.blooket.com/marketassets/blooks/tenrec.svg"></button>
+						<button onclick="setblook('id', 'Name', 'https://img')" style="width: 100%; height: 6vh; background: transparent; border: none; padding: 0;"><img style="width: 70%; height: 5vh; margin: .5vh 5%;" src="https://ac.blooket.com/marketassets/blooks/tenrec.svg"></button>
+						<button onclick="setblook('id', 'Name', 'https://img')" style="width: 100%; height: 6vh; background: transparent; border: none; padding: 0;"><img style="width: 70%; height: 5vh; margin: .5vh 5%;" src="https://ac.blooket.com/marketassets/blooks/tenrec.svg"></button>
+						<button onclick="setblook('id', 'Name', 'https://img')" style="width: 100%; height: 6vh; background: transparent; border: none; padding: 0;"><img style="width: 70%; height: 5vh; margin: .5vh 5%;" src="https://ac.blooket.com/marketassets/blooks/tenrec.svg"></button>
+						<button onclick="setblook('id', 'Name', 'https://img')" style="width: 100%; height: 6vh; background: transparent; border: none; padding: 0;"><img style="width: 70%; height: 5vh; margin: .5vh 5%;" src="https://ac.blooket.com/marketassets/blooks/tenrec.svg"></button>
+					</div>
+				</div>
+			</div>
+			<h1 id="progress">Example</h1>
+			<button class="start" onclick="send()">Sumbit</button>
+		</div>
+	</div>
+	<div id="footer">
+		<p>Made by <span><a class="link-hover" style="color: #ffffff; text-decoration: none;" href="https://qwkdev.github.io" target="_blank">qwk<span class="underline" style="width: 110%; transform: translate(-95%, 0);"></span></a></span></p>
+	</div>
+
+	<script>
+		function toggleBlook() {
+			const blooks = document.getElementById('blooks');
+			if (blooks.style.display == 'none') {
+				blooks.style.cssText = "grid-template-columns: repeat(6, 1fr);";
+				document.addEventListener('click', toggleClick);
+			} else {
+				blooks.style.cssText = "grid-template-columns: repeat(6, 1fr); display: none;";
+			}
+		}
+		function toggleClick() {
+			document.getElementById('blooks').style.cssText = "grid-template-columns: repeat(6, 1fr); display: none;";
+			document.removeEventListener('click', toggleClick);
+		}
+		document.getElementById('blook').addEventListener('click', (event) => {
+			event.stopPropagation();
+		});
+	</script>
+</body>
+</html>
