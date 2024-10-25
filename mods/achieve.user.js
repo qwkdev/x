@@ -3,7 +3,7 @@
 // @namespace   xmods
 // @match       *://achieve.hashtag-learning.co.uk/*
 // @grant       none
-// @version     2.4.6
+// @version     2.4.7
 // @author      xmods
 // @grant       GM_setValue
 // @grant       GM_getValue
@@ -6401,17 +6401,6 @@ function changeMode() {
 };
 
 function answer() {
-    if (!document.getElementById('autoModeButton')) {
-        const settings = document.getElementById("navbarSettings").parentElement.querySelector(".dropdown-menu");
-        const btn = document.createElement("button");
-        const txt = document.createTextNode("Mode: " + ["Manual", "Auto", "Full Auto"][GM_getValue('autoMode', 2)]);
-        btn.appendChild(txt);
-        btn.onclick = changeMode;
-        btn.style.cssText = `border: none; width: 100%; height: 100%;`;
-        btn.id = "autoModeButton";
-        settings.appendChild(btn);
-    }
-
     const question = document.querySelector(".card-header.question-card-header.pt-4.pb-4.border-secondary > .row.m-0 > .col").innerHTML.replace(/\s+/g, ' ').trim();
     if (document.getElementById("text-answer")) {
         let answertxt = null;
@@ -6491,6 +6480,19 @@ function answer() {
         }
     }
 };
+
+retry(0, () => {
+    if (!document.getElementById('autoModeButton')) {
+        const settings = document.getElementById("navbarSettings").parentElement.querySelector(".dropdown-menu");
+        const btn = document.createElement("button");
+        const txt = document.createTextNode("Mode: " + ["Manual", "Auto", "Full Auto"][GM_getValue('autoMode', 2)]);
+        btn.appendChild(txt);
+        btn.onclick = changeMode;
+        btn.style.cssText = `border: none; width: 100%; height: 100%;`;
+        btn.id = "autoModeButton";
+        settings.appendChild(btn);
+    }
+});
 
 if (window.location.href.includes("question-page")) {
     if (GM_getValue('autoMode', 2) === 2) {
