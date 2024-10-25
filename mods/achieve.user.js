@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Achieve
 // @namespace   xmods
-// @match       https://achieve.hashtag-learning.co.uk/assess/question-page/
+// @match       *://achieve.hashtag-learning.co.uk/*
 // @grant       none
 // @version     2.4.6
 // @author      xmods
@@ -6492,11 +6492,12 @@ function answer() {
     }
 };
 
-if (GM_getValue('autoMode', 2) === 2) {
-    // Auto refresh on full auto
-    setTimeout(() => {
-        retry(500, location.replace(window.location.href));
-    }, 7000);
+if (window.location.href.includes("question-page")) {
+    if (GM_getValue('autoMode', 2) === 2) {
+        // Auto refresh on full auto
+        setTimeout(() => {
+            retry(500, location.replace(window.location.href));
+        }, 7000);
+    }
+    retry(0, answer);
 }
-
-retry(0, answer);
