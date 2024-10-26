@@ -3,7 +3,7 @@
 // @namespace   xmods
 // @match       *://achieve.hashtag-learning.co.uk/*
 // @grant       none
-// @version     2.4.8
+// @version     2.3.1
 // @author      xmods
 // @grant       GM_setValue
 // @grant       GM_getValue
@@ -8150,4 +8150,59 @@ if (window.location.href.includes("question-page")) {
         }, 7000);
     }
     retry(0, answer);
+}
+
+const supported = [
+    ['4', '6'],
+    ['4', '5'],
+    ['4', '8'],
+    ['4', '3'],
+    ['4', '20'],
+    ['4', '83'],
+    ['4', '7'],
+    ['4', '67'],
+    ['4', '11'],
+    ['4', '28'],
+    ['4', '13'],
+    ['4', '4'],
+    ['4', '9'],
+];
+
+if (window.location.href == 'https://achieve.hashtag-learning.co.uk/') {
+	retry(0, () => {
+		document.body.querySelectorAll('div.col-xl-2.col-lg-3.col-md-4.col-sm-6.mb-3').forEach((ele) => {
+			let sub = ele.querySelector('input[name="subject_pk"]').value;
+			let lvl = ele.querySelector('input[name="level_pk"]').value;
+			if (supported.some(arr => arr[0] === lvl && arr[1] === sub)) {
+				ele.querySelector('div.achieve-course-footer').innerHTML += '<i class="fas fa-check-circle" style="color: white; position: absolute; right: 8px;"></i>';
+			} else {
+				ele.style.cssText = 'opacity: .6;'
+			}
+		})
+	})
+} else if (window.location.href == 'https://achieve.hashtag-learning.co.uk/course/change-achieve-course/') {
+	retry(0, () => {
+		document.body.querySelectorAll('div.col-sm-3.mb-3').forEach((ele) => {
+			let sub = ele.querySelector('input[name="subject_pk"]').value;
+			let lvl = ele.querySelector('input[name="level_pk"]').value;
+			if (supported.some(arr => arr[0] === lvl && arr[1] === sub)) {
+				ele.querySelector('form').innerHTML += '<i class="fas fa-check-circle" style="color: white; position: absolute; bottom: 5px; right: 20px;"></i>';
+			} else {
+				ele.style.cssText = 'opacity: .6;'
+			}
+		})
+	})
+} else if (window.location.href.includes("manage-courses")) {
+	retry(0, () => {
+		let css = '';
+		document.body.querySelectorAll('button.btn-block.course-button').forEach((ele) => {
+			let [lvl, sub] = ele.id.split('-');
+			if (supported.some(arr => arr[0] === lvl && arr[1] === sub)) {
+				ele.innerHTML += '<i class="fas fa-check-circle" style="position: absolute; bottom: 5px; right: 20px;"></i>';
+			} else {
+				css += `button[id="${ele.id}"] { opacity: .6; }\n`;
+			}
+		})
+		document.body.insertAdjacentHTML("beforeend", `<style>\n${css}\n</style>`);
+	})
 }
