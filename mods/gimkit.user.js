@@ -12,7 +12,7 @@
 // @grant       GM_deleteValue
 // ==/UserScript==
 
-(function () {
+function XMODS_INIT() {
 	'use strict';
 
 	/** @returns {void} */
@@ -22195,4 +22195,19 @@
 	    createHud();
 	}
 
-})();
+}
+
+async function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+async function retry(delay, ref, ...args) {
+    while (true) {
+        try {
+            await wait(delay);
+            return ref(...args);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+retry(0, () => { XMODS_INIT(); });
