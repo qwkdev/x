@@ -6,7 +6,7 @@
 // @run-at      document-start
 // @iconURL     https://www.gimkit.com/favicon.png
 // @author      TheLazySquid & XMODS
-// @version     1.2.1
+// @version     1.2.2
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_deleteValue
@@ -16338,7 +16338,7 @@
 
 		group = new Group({
 				props: {
-					name: "Player Highlighter",
+					name: "ESP",
 					$$slots: { default: [create_default_slot$g] },
 					$$scope: { ctx }
 				}
@@ -20090,47 +20090,48 @@
 	}
 
 	function create_fragment$4(ctx) {
-		let group;
-		let current;
+// [xmods] TODO: Patched? Or fix...
+// 		let group;
+// 		let current;
 
-		group = new Group({
-				props: {
-					name: "Movement",
-					$$slots: { default: [create_default_slot$4] },
-					$$scope: { ctx }
-				}
-			});
+// 		group = new Group({
+// 				props: {
+// 					name: "Movement",
+// 					$$slots: { default: [create_default_slot$4] },
+// 					$$scope: { ctx }
+// 				}
+// 			});
 
-		return {
-			c() {
-				create_component(group.$$.fragment);
-			},
-			m(target, anchor) {
-				mount_component(group, target, anchor);
-				current = true;
-			},
-			p(ctx, [dirty]) {
-				const group_changes = {};
+// 		return {
+// 			c() {
+// 				create_component(group.$$.fragment);
+// 			},
+// 			m(target, anchor) {
+// 				mount_component(group, target, anchor);
+// 				current = true;
+// 			},
+// 			p(ctx, [dirty]) {
+// 				const group_changes = {};
 
-				if (dirty & /*$$scope, $physicsConsts, jumpboostEnabled, jumpboostMultiplier, $storesLoaded, speedupEnabled, speedupMultiplier*/ 2097215) {
-					group_changes.$$scope = { dirty, ctx };
-				}
+// 				if (dirty & /*$$scope, $physicsConsts, jumpboostEnabled, jumpboostMultiplier, $storesLoaded, speedupEnabled, speedupMultiplier*/ 2097215) {
+// 					group_changes.$$scope = { dirty, ctx };
+// 				}
 
-				group.$set(group_changes);
-			},
-			i(local) {
-				if (current) return;
-				transition_in(group.$$.fragment, local);
-				current = true;
-			},
-			o(local) {
-				transition_out(group.$$.fragment, local);
-				current = false;
-			},
-			d(detaching) {
-				destroy_component(group, detaching);
-			}
-		};
+// 				group.$set(group_changes);
+// 			},
+// 			i(local) {
+// 				if (current) return;
+// 				transition_in(group.$$.fragment, local);
+// 				current = true;
+// 			},
+// 			o(local) {
+// 				transition_out(group.$$.fragment, local);
+// 				current = false;
+// 			},
+// 			d(detaching) {
+// 				destroy_component(group, detaching);
+// 			}
+// 		};
 	}
 
 	function instance$2($$self, $$props, $$invalidate) {
@@ -20158,6 +20159,7 @@
 				} else {
 					let newSpeed = nativeSpeed * speedupMultiplier;
 					lastSetTo = newSpeed;
+                    console.log(`// [xmods] calling speed set`);
 					set_store_value(physicsConsts, $physicsConsts.platformerGroundSpeed = newSpeed, $physicsConsts);
 				}
 			} else {
