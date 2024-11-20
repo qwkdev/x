@@ -3,7 +3,7 @@
 // @namespace   xmods
 // @match       *://achieve.hashtag-learning.co.uk/*
 // @grant       none
-// @version     2.3.1
+// @version     2.3.2
 // @author      xmods
 // @grant       GM_setValue
 // @grant       GM_getValue
@@ -8041,8 +8041,8 @@ async function retry(delay, ref, ...args) {
 }
 
 function changeMode() {
-    GM_setValue('autoMode', (GM_getValue('autoMode', 2) + 1) % 3);
-    document.getElementById("autoModeButton").innerText = "Mode: " + ["Manual", "Auto", "Full Auto"][GM_getValue('autoMode', 2)];
+    GM_setValue('autoMode', (GM_getValue('autoMode', 2) + 1) % 4);
+    document.getElementById("autoModeButton").innerText = "Mode: " + ["Manual", "Auto", "Full Auto", "Off"][GM_getValue('autoMode', 2)];
     setTimeout(() => {
         document.getElementById("navbarSettings").click();
     }, 100);
@@ -8133,7 +8133,7 @@ retry(0, () => {
     if (!document.getElementById('autoModeButton')) {
         const settings = document.getElementById("navbarSettings").parentElement.querySelector(".dropdown-menu");
         const btn = document.createElement("button");
-        const txt = document.createTextNode("Mode: " + ["Manual", "Auto", "Full Auto"][GM_getValue('autoMode', 2)]);
+        const txt = document.createTextNode("Mode: " + ["Manual", "Auto", "Full Auto", "Off"][GM_getValue('autoMode', 2)]);
         btn.appendChild(txt);
         btn.onclick = changeMode;
         btn.style.cssText = `border: none; width: 100%; height: 100%;`;
@@ -8149,7 +8149,9 @@ if (window.location.href.includes("question-page")) {
             retry(500, location.replace(window.location.href));
         }, 7000);
     }
-    retry(0, answer);
+    if (GM_getValue('autoMode', 2) != 3) {
+        retry(0, answer);
+    }
 }
 
 const supported = [
