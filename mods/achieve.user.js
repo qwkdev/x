@@ -3,7 +3,7 @@
 // @namespace   xmods
 // @match       *://achieve.hashtag-learning.co.uk/*
 // @grant       none
-// @version     2.3.2
+// @version     2.3.3
 // @author      xmods
 // @grant       GM_setValue
 // @grant       GM_getValue
@@ -8132,6 +8132,7 @@ function answer() {
 retry(0, () => {
     if (!document.getElementById('autoModeButton')) {
         const settings = document.getElementById("navbarSettings").parentElement.querySelector(".dropdown-menu");
+        settings.style.cssText = `transform: translateX(-80%);`;
         const btn = document.createElement("button");
         const txt = document.createTextNode("Mode: " + ["Manual", "Auto", "Full Auto", "Off"][GM_getValue('autoMode', 2)]);
         btn.appendChild(txt);
