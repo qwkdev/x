@@ -3,12 +3,14 @@
 // @namespace   xmods
 // @match       *://achieve.hashtag-learning.co.uk/*
 // @grant       none
-// @version     2.3.3
 // @author      xmods
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_deleteValue
+// @version     3.0.0
 // ==/UserScript==
+
+const version = '3.0.0';
 
 const data = {
     // ENGINEERING SCIENCE
@@ -8026,6 +8028,355 @@ const data = {
     [`<p>The structures below are involved in the transfer and sorting of information within the body.</p><ol><li>Brain</li><li>Spinal cord</li><li>Other Neurons</li></ol><p>Which statement(s) identify the structures that make up the nervous system?</p>`]: [`1, 2 and 3`],
 };
 
+const css = [
+    "", `
+div.p-1 button.btn.btn-assess-choice.btn-block:hover {
+    background: #404050;
+}
+
+body {
+    background: #0c131d;
+}
+div.container {
+    background: #181821;
+}
+
+a.achieve-list-group-item.clickable.achieve-list-group-item-activity,
+div.achieve-data-box-row-bottom-border
+{
+    border-color: #404045;
+}
+a.achieve-list-group-item.clickable.achieve-list-group-item-activity:hover {
+    background: #333340;
+}
+div.fc-view-harness.fc-view-harness-active * {
+    border-color: #404045;
+}
+a.dropdown-item:hover {
+    background: #333340;
+    color: #fff;
+}
+
+img {
+    box-shadow: 0px 0px 20px -5px #fff;
+    border-radius: 5px;
+}
+a.navbar-brand img.img-fluid {
+    box-shadow: none;
+    border-radius: 0;
+}
+
+div.modal-header,
+div.modal-footer
+{
+    background: #4e5d6c;
+}
+
+div.modal-header *,
+div.modal-footer *
+{
+    color: #fff;
+}
+
+button.btn-block.course-button {
+    background: #333340;
+}
+button.btn-block.course-button:hover {
+    background: #393946;
+}
+button.btn-block.course-button:focus {
+    outline: none;
+}
+button.btn-block.course-button.selected {
+    background: #5c7996;
+}
+
+button.btn-block.course-selector-button {
+    background: #333340;
+}
+button.btn-block.course-selector-button:hover {
+    background: #393946;
+}
+
+button.btn-block.course-selector-button.national5 {
+    color: #5fa052;
+}
+button.btn-block.course-selector-button.higher {
+    color: #4682b4;
+}
+
+div.manage-topic-container,
+div.sku-card,
+div.sku-card-footer
+{
+    background: #333340 !important;
+    color: #fff;
+}
+div.manage-topic-container,
+div.row.manage-sku-container
+{
+    border: 1px solid #333340;
+}
+div.sku-card {
+    border: 1px solid #404045 !important;
+}
+div.sku-card-footer {
+    border: none;
+}
+
+span.small-slider,
+span.slider
+{
+    background: #505058;
+}
+
+button.btn.achieve-course-btn.achieve-course-btn-national5 {
+    border: 1px solid #5fa052;
+}
+button.btn.achieve-course-btn.achieve-course-btn-higher {
+    border: 1px solid #4682b4;
+}
+button.btn.achieve-course-btn:hover {
+    background: #404049;
+}
+
+button.btn.btn-sm.btn-achieve-arrow.navigate-grade.btn-arrow {
+    background: #404049;
+    border: 1px solid #5c7996;
+}
+button.btn.btn-sm.btn-achieve-arrow.navigate-grade.btn-arrow:hover {
+    background: #505059;
+}
+button.btn.btn-sm.btn-achieve-arrow.navigate-grade.btn-arrow:focus {
+    outline: none;
+    box-shadow: none;
+}
+button.btn.btn-sm.btn-achieve-arrow.navigate-grade.btn-arrow[disabled] {
+    border: none;
+}
+span.current-grade.grade-border {
+    background: #404049;
+    border: 1px solid #5c7996;
+    color: #fff;
+}
+
+li.list-group-item.achieve-list-group-item {
+    background: #222227;
+    color: #fff;
+    border-color: #404045;
+}
+
+.page-link.achieve-page-link {
+    background: #222227 !important;
+    color: #fff !important;
+    border-color: #404045 !important;
+}
+.page-link.achieve-page-link:focus {
+    box-shadow: none;
+}
+
+div.achieve-filter-container {
+    background: #222227;
+    border-color: #404045;
+}
+select.form-control.achieve-filter-select {
+    background: #222227;
+    color: #fff;
+    border-color: #404045;
+}
+select.form-control.achieve-filter-select:focus {
+    box-shadow: none;
+}
+button.btn.achieve-filter-btn {
+    background: transparent;
+    border: 1px solid #404045;
+}
+
+div.card-body.border {
+    border: 1px solid #333340 !important;
+}
+div.card-footer.answer-footer.border * {
+    border: none !important;
+    color: white;
+}
+
+li.list-group-item.achieve-list-group-item.clickable:hover {
+    background: #333340;
+}
+
+a.btn.streak-table-toggle-btn {
+    background: #222227;
+}
+a.btn.streak-table-toggle-btn:focus {
+    box-shadow: none;
+}
+a.btn.streak-table-toggle-btn:hover:not(.active) {
+    background: #333340 !important;
+}
+
+a.btn.streak-table-toggle-btn.school {
+    border: 1px solid #6f42c1;
+}
+a.btn.streak-table-toggle-btn.scotland {
+    border: 1px solid #005eb8;
+}
+
+h5.card-title.achieve-block-title {
+    background: #333340;
+}
+
+div.card.target-grade-card {
+    border: none;
+}
+div.bg-nat5.p-3.text-center {
+    background: #333340;
+    border: 1px solid #5fa052;
+    border-radius: 5px;
+}
+div.bg-higher.p-3.text-center {
+    background: #333340;
+    border: 1px solid #4682b4;
+    border-radius: 5px;
+}
+div.grade-navigator.text-center.p-3 {
+    background: #333340;
+    border-radius: 0 0 5px 5px;
+}
+div.card.target-grade-card {
+    background: #333340;
+}
+
+button.btn,
+a.btn-learn-questions {
+    background: #333340;
+    color: #fff;
+}
+button.btn-outline-light:hover {
+    background: #505055;
+    color: #fff;
+}
+
+div.achieve-tab-container a.nav-link {
+    background-color: #333340 !important;
+}
+
+div.achieve-progress {
+    background: #333340;
+}
+span.achieve-status-badge {
+    color: #000 !important;
+}
+
+div.achieve-data-box-body {
+    border-radius: 8px;
+}
+
+button.btn.achieve-cta-button {
+    border: 1px solid #28a745;
+}
+
+button.btn-assessment-correct {
+    background: #333340 !important;
+    border: 1px solid #28a745;
+    color: #28a745 !important;
+}
+button.btn-assessment-wrong {
+    background: #333340 !important;
+    border: 1px solid #AC0206;
+    color: #AC0206 !important;
+}
+button.btn.btn-assessment.btn-block {
+    background: #333340 !important;
+    border: none;
+    color: #fff !important;
+}
+
+div.achieve-floating-footer-button-bar {
+    border: none;
+}
+
+
+label.tl-container input + span {
+    background-color: #333340;
+    border: 1px solid #fff;
+}
+.tl-container input ~ .checkmark-red { border-color: #f00; }
+.tl-container:hover input ~ .checkmark-red { background: #300 !important; }
+label.tl-container input[checked="checked"] + span.checkmark-red { background: #f00; }
+.tl-container input ~ .checkmark-amber { border-color: #ff0; }
+.tl-container:hover input ~ .checkmark-amber { background: #660 !important; }
+label.tl-container input[checked="checked"] + span.checkmark-amber { background: #ff0; }
+.tl-container input ~ .checkmark-green { border-color: #0f0; }
+.tl-container:hover input ~ .checkmark-green { background: #060 !important; }
+label.tl-container input[checked="checked"] + span.checkmark-green { background: #0f0; }
+
+div.achieve-page-header,
+div.achieve-data-box-body,
+div.achieve-data-box-container,
+div.achieve-course-body,
+div.achieve-data-box-header-small,
+div.achieve-footer-button-bar,
+div.fc-view-harness.fc-view-harness-active *,
+div.dropdown-menu,
+div.modal-body,
+div.achieve-tab-container,
+div.card.exam-card.shadow-sm.rounded.h-100.border-nat5,
+div.card.exam-card.shadow-sm.rounded.h-100.border-higher,
+div.achieve-card-links div.card-body,
+div.card.achieve-card div.card-body,
+div.card-footer.answer-footer.border,
+div.assess-profile-card,
+div.white-header-container,
+div.card-header.question-card-header.pt-4.pb-4.border-secondary,
+div.m-1.pt-5.pb-5.pr-2.pl-2.border.border-info.flex-grow-1,
+div.achieve-floating-footer-button-bar,
+div.self-evaluate-concepts-footer
+{
+    background: #222227 !important;
+}
+
+span.course-subject,
+span.activity-description,
+div.fc-view-harness.fc-view-harness-active *,
+a.dropdown-item,
+button#autoModeButton,
+button#cssThemeButton,
+div.achieve-data-box-row-text-simple,
+div.modal-body *,
+p.user-start-lead,
+div#footer p,
+div.card.exam-card.shadow-sm.rounded.h-100.border-nat5,
+div.card.exam-card.shadow-sm.rounded.h-100.border-higher,
+div.achieve-card-links div.card-body,
+div.card.achieve-card div.card-body,
+h5.card-title.achieve-block-title,
+div.achieve-data-list-group-body.flex-grow-1 *,
+div.assess-profile-card *:not(i),
+div.white-header-container *,
+div.card-header.question-card-header.pt-4.pb-4.border-secondary *,
+div.m-1.pt-5.pb-5.pr-2.pl-2.border.border-info.flex-grow-1 *,
+div.col-sm-6,
+div.flex-grow-1.pr-3,
+div.achieve-data-box-row-bottom-border,
+div.self-evaluate-unit-name,
+div.achieve-data-box-body div.form-group *
+{
+    color: #fff;
+}
+
+h2#fc-dom-1,
+div.achieve-data-box-header-small,
+div.achieve-page-subject-header
+{
+    color: #5c7996;
+}
+`
+];
+const themes = [
+    "Default",
+    "Dark"
+]
+
 async function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -8043,6 +8394,16 @@ async function retry(delay, ref, ...args) {
 function changeMode() {
     GM_setValue('autoMode', (GM_getValue('autoMode', 2) + 1) % 4);
     document.getElementById("autoModeButton").innerText = "Mode: " + ["Manual", "Auto", "Full Auto", "Off"][GM_getValue('autoMode', 2)];
+    setTimeout(() => {
+        document.getElementById("navbarSettings").click();
+    }, 100);
+};
+
+function changeTheme() {
+    GM_setValue('cssTheme', (GM_getValue('cssTheme', 0) + 1) % themes.length);
+    document.getElementById("cssThemeButton").innerText = "Theme: " + themes[GM_getValue('cssTheme', 0)];
+    document.getElementById("xmods-css").innerText = css[GM_getValue('cssTheme', 0)];
+
     setTimeout(() => {
         document.getElementById("navbarSettings").click();
     }, 100);
@@ -8123,23 +8484,42 @@ function answer() {
             });
         } else {
             retry(0, () => {
-                answer.style.cssText = `background-color: #5787AE !important;`
+                answer.style.cssText = [
+                    `background-color: #5787AE !important; border-color: #5787AE !important;`,
+                    `background: #404050 !important; border-color: #5787AE !important;`
+                ][GM_getValue('cssTheme', 0)];
             });
         }
     }
 };
 
 retry(0, () => {
-    if (!document.getElementById('autoModeButton')) {
+    if (!document.getElementById('xmods-css')) {
+        let btn, txt;
+        const btncss = `border: none; background: transparent; width: 176px; height: 32px; padding: 4px 24px; text-align: left; font-size: 16px; font-weight: 400; line-height: 24px;`;
+
         const settings = document.getElementById("navbarSettings").parentElement.querySelector(".dropdown-menu");
         settings.style.cssText = `transform: translateX(-80%);`;
-        const btn = document.createElement("button");
-        const txt = document.createTextNode("Mode: " + ["Manual", "Auto", "Full Auto", "Off"][GM_getValue('autoMode', 2)]);
+        btn = document.createElement("button");
+        txt = document.createTextNode("Mode: " + ["Manual", "Auto", "Full Auto", "Off"][GM_getValue('autoMode', 2)]);
         btn.appendChild(txt);
         btn.onclick = changeMode;
-        btn.style.cssText = `border: none; width: 100%; height: 100%;`;
+        btn.style.cssText = btncss + ` border-top: 1px solid rgba(0, 0, 0, 0.3); border-radius: 4px;`;
         btn.id = "autoModeButton";
         settings.appendChild(btn);
+
+        btn = document.createElement("button");
+        txt = document.createTextNode("Theme: " + themes[GM_getValue('cssTheme', 0)]);
+        btn.appendChild(txt);
+        btn.onclick = changeTheme;
+        btn.style.cssText = btncss;
+        btn.id = "cssThemeButton";
+        settings.appendChild(btn);
+
+        let style = document.createElement("style");
+        style.id = "xmods-css";
+        style.innerText = css[GM_getValue('cssTheme', 0)];
+        document.body.appendChild(style);
     }
 });
 
@@ -8208,4 +8588,12 @@ if (window.location.href == 'https://achieve.hashtag-learning.co.uk/') {
 		})
 		document.body.insertAdjacentHTML("beforeend", `<style>\n${css}\n</style>`);
 	})
+}
+
+if (window.location.href.includes(".uk/about")) {
+    retry(0, () => {
+        document.body.querySelector('div.achieve-data-box-body').querySelector('div.form-group').innerHTML += `
+<p>Achieve Hacks Version: ${version}</p>
+<p>Made by <a href="https://qwkdev.github.io/" target="_blank" style="text-decoration: underline; font-weight: 500;">qwk</a></p>`;
+    })
 }
