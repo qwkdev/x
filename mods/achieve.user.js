@@ -7,10 +7,10 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_deleteValue
-// @version     3.0.0
+// @version     3.0.2
 // ==/UserScript==
 
-const version = '3.0.0';
+const version = '3.0.2';
 
 const data = {
     // ENGINEERING SCIENCE
@@ -1083,6 +1083,19 @@ const data = {
     [`<p>Which of the following are appropriate units for half life?</p>`]: [`seconds`],
     [`<p>A 0.75 kg piece of lead is heated from 35 °C to 75 °C. The specific heat capacity of lead is 128 Jkg<sup>-1</sup>°C<sup>-1</sup>.</p><p>Calculate the total energy delivered to the lead while it is being heated.</p>`]: [`3840 J`],
     [`<p>In the UK the annual equivalent dose limit for a radiation worker is 20 mSv. The average UK employee spends 1730 hours working every year. Based on these numbers, what is the maximum average equivalent dose rate that a radiation worker can receive during these working hours?</p>`]: [`11.6 µSvh<sup>-1</sup>`],
+    [`<p>Which of these symbols correctly shows an npn transistor?</p>`]: [`<img class="img-fluid" src="https://hashtag-achieve.s3.amazonaws.com/static/images/questions/physics/n5-npn-transistor-MOSFET-mc-3-2.png"><br><br>`],
+    [`<p>Which of the following best describes the function of a Light Emitting Diode (LED)?</p>`]: [`An output device that changes electrical energy into light`],
+    [`<p>What is the name of the electronic component represented by this symbol?</p><img class="img-fluid" src="https://hashtag-achieve.s3.amazonaws.com/static/images/questions/physics/n5-physics-light-emitting-diode-function-text-1.png"><br><br>`]: [`>LED`],
+    [`<p>In which of the following circuits will <strong>both</strong> LEDs be lit?</p>`]: [`<img class="img-fluid" src="https://hashtag-achieve.s3.amazonaws.com/static/images/questions/physics/physics-n5-electricity-circuits-mc-5-4.png"><br><br>`],
+    [`<p>Why is a protective resistor used with a Light Emitting Diode (LED)?</p>`]: [`To prevent the LED from overheating due to excess current`],
+    [`<p>A circuit is set up as shown.</p><p>Calculate the resistance of resistor R.</p><img class="img-fluid" src="https://hashtag-achieve.s3.amazonaws.com/static/images/questions/physics/n5-physics-light-emitting-diode-function-mc-4.png"><br><br>`]: [`400 Ω`],
+    [`<p>A circuit is set up as shown.</p><p>Calculate the resistance of resistor R.</p><img class="img-fluid" src="https://hashtag-achieve.s3.amazonaws.com/static/images/questions/physics/n5-physics-light-emitting-diode-function-mc-3.png"><br><br>`]: [`300 Ω`],
+    [`<p>A circuit is set up as shown.</p><p>Calculate the resistance of resistor R.</p><img class="img-fluid" src="https://hashtag-achieve.s3.amazonaws.com/static/images/questions/physics/n5-physics-light-emitting-diode-function-mc-2.png"><br><br>`]: [`288 Ω`],
+    [`<p>Which of the following statements about this circuit with is true?</p><img class="img-fluid" src="https://hashtag-achieve.s3.amazonaws.com/static/images/questions/physics/n5-physics-function-transistor-switching-circuit-mc-1.png"><br><br>`]: [`The LDR switches on the motor when the light level drops, and its resistance increases as the light level decreases`],
+    [`<p>A car has an initial speed of 15 ms<sup>-1</sup> before accelerating to a new speed of 32ms<sup>-1</sup>. If this change in speed takes 5.0 seconds, then the acceleration of the car is:</p>`]: [`3.4 ms<sup>-2</sup>`],
+    [`<p>A 4 kg plank of wood sits on a flat surface. The area of contact with the surface is 0.5 m<sup>2</sup>. The pressure exerted on the surface due to the plank is:</p>`]: [`78.4 Nm<sup>-2</sup>`],
+    [`<p>A circuit is set up as shown.</p><p>Calculate the resistance of resistor R.</p><img class="img-fluid" src="https://hashtag-achieve.s3.amazonaws.com/static/images/questions/physics/n5-physics-light-emitting-diode-function-mc-1.png"><br><br>`]: [`440 Ω`],
+    [`<p>A circuit is set up as shown.</p><img class="img-fluid" src="https://hashtag-achieve.s3.amazonaws.com/static/images/questions/physics/n5-physics-function-transistor-switching-circuit-mc-2.png"><br><br><ul><li>The room temperature is 18 °C.</li><li>The motor is off.</li></ul><p>The motor will turn on when:</p>`]: [`The light level is decreased below a certain value`],
 
     // MATHS
     [`<p>Part of the graph y = cos a (x - b)<sup>o</sup> is shown.</p><p>State the value of a.</p><img class="img-fluid" src="https://hashtag-achieve.s3.amazonaws.com/static/images/questions/mathematics/n5-trig-graph-frequency-text-4.png"><br><br>`]: [`>3`],
@@ -8295,7 +8308,6 @@ div.achieve-floating-footer-button-bar {
     border: none;
 }
 
-
 label.tl-container input + span {
     background-color: #333340;
     border: 1px solid #fff;
@@ -8309,6 +8321,10 @@ label.tl-container input[checked="checked"] + span.checkmark-amber { background:
 .tl-container input ~ .checkmark-green { border-color: #0f0; }
 .tl-container:hover input ~ .checkmark-green { background: #060 !important; }
 label.tl-container input[checked="checked"] + span.checkmark-green { background: #0f0; }
+
+div.text-danger {
+    border: none;
+}
 
 div.achieve-page-header,
 div.achieve-data-box-body,
@@ -8330,7 +8346,13 @@ div.white-header-container,
 div.card-header.question-card-header.pt-4.pb-4.border-secondary,
 div.m-1.pt-5.pb-5.pr-2.pl-2.border.border-info.flex-grow-1,
 div.achieve-floating-footer-button-bar,
-div.self-evaluate-concepts-footer
+div.self-evaluate-concepts-footer,
+div.delete-modal-content.modal-content,
+input#id_oldpassword,
+input#id_password1,
+input#id_password2,
+input#id_password,
+input#text-answer
 {
     background: #222227 !important;
 }
@@ -8359,7 +8381,14 @@ div.col-sm-6,
 div.flex-grow-1.pr-3,
 div.achieve-data-box-row-bottom-border,
 div.self-evaluate-unit-name,
-div.achieve-data-box-body div.form-group *
+div.achieve-data-box-body div.form-group *,
+div.delete-modal-body.modal-body,
+div.user-detail-text *,
+input#id_oldpassword,
+input#id_password1,
+input#id_password2,
+input#id_password,
+input#text-answer
 {
     color: #fff;
 }
@@ -8493,35 +8522,42 @@ function answer() {
     }
 };
 
-retry(0, () => {
-    if (!document.getElementById('xmods-css')) {
-        let btn, txt;
-        const btncss = `border: none; background: transparent; width: 176px; height: 32px; padding: 4px 24px; text-align: left; font-size: 16px; font-weight: 400; line-height: 24px;`;
+if (
+    !window.location.href.includes('.uk/user-start') &&
+    !window.location.href.includes('.uk/accounts/') &&
+    !window.location.href.includes('.uk/user-signup') &&
+    !window.location.href.includes('.uk/base')
+) {
+    retry(0, () => {
+        if (!document.getElementById('xmods-css')) {
+            let btn, txt;
+            const btncss = `border: none; background: transparent; width: 176px; height: 32px; padding: 4px 24px; text-align: left; font-size: 16px; font-weight: 400; line-height: 24px;`;
 
-        const settings = document.getElementById("navbarSettings").parentElement.querySelector(".dropdown-menu");
-        settings.style.cssText = `transform: translateX(-80%);`;
-        btn = document.createElement("button");
-        txt = document.createTextNode("Mode: " + ["Manual", "Auto", "Full Auto", "Off"][GM_getValue('autoMode', 2)]);
-        btn.appendChild(txt);
-        btn.onclick = changeMode;
-        btn.style.cssText = btncss + ` border-top: 1px solid rgba(0, 0, 0, 0.3); border-radius: 4px;`;
-        btn.id = "autoModeButton";
-        settings.appendChild(btn);
+            const settings = document.getElementById("navbarSettings").parentElement.querySelector(".dropdown-menu");
+            settings.style.cssText = `transform: translateX(-80%);`;
+            btn = document.createElement("button");
+            txt = document.createTextNode("Mode: " + ["Manual", "Auto", "Full Auto", "Off"][GM_getValue('autoMode', 2)]);
+            btn.appendChild(txt);
+            btn.onclick = changeMode;
+            btn.style.cssText = btncss + ` border-top: 1px solid rgba(0, 0, 0, 0.3); border-radius: 4px;`;
+            btn.id = "autoModeButton";
+            settings.appendChild(btn);
 
-        btn = document.createElement("button");
-        txt = document.createTextNode("Theme: " + themes[GM_getValue('cssTheme', 0)]);
-        btn.appendChild(txt);
-        btn.onclick = changeTheme;
-        btn.style.cssText = btncss;
-        btn.id = "cssThemeButton";
-        settings.appendChild(btn);
+            btn = document.createElement("button");
+            txt = document.createTextNode("Theme: " + themes[GM_getValue('cssTheme', 0)]);
+            btn.appendChild(txt);
+            btn.onclick = changeTheme;
+            btn.style.cssText = btncss;
+            btn.id = "cssThemeButton";
+            settings.appendChild(btn);
 
-        let style = document.createElement("style");
-        style.id = "xmods-css";
-        style.innerText = css[GM_getValue('cssTheme', 0)];
-        document.body.appendChild(style);
-    }
-});
+            let style = document.createElement("style");
+            style.id = "xmods-css";
+            style.innerText = css[GM_getValue('cssTheme', 0)];
+            document.body.appendChild(style);
+        }
+    });
+}
 
 if (window.location.href.includes("question-page")) {
     if (GM_getValue('autoMode', 2) === 2) {
