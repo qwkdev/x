@@ -7,10 +7,10 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_deleteValue
-// @version     3.0.2
+// @version     3.1.2
 // ==/UserScript==
 
-const version = '3.0.2';
+const version = '3.1.2';
 
 const data = {
     // ENGINEERING SCIENCE
@@ -8326,6 +8326,11 @@ div.text-danger {
     border: none;
 }
 
+div.progress-bar.bg-grey.achieve-progress-bar {
+    background: #333340;
+    color: #fff;
+}
+
 div.achieve-page-header,
 div.achieve-data-box-body,
 div.achieve-data-box-container,
@@ -8352,7 +8357,8 @@ input#id_oldpassword,
 input#id_password1,
 input#id_password2,
 input#id_password,
-input#text-answer
+input#text-answer,
+div.quote-box
 {
     background: #222227 !important;
 }
@@ -8406,6 +8412,22 @@ const themes = [
     "Dark"
 ]
 
+const supported = [
+    ['4', '6',  'National 5 Biology'],
+    ['4', '5',  'National 5 Business Management'],
+    ['4', '8',  'National 5 Chemistry'],
+    ['4', '3',  'National 5 Computing Science'],
+    ['4', '20', 'National 5 Design and Manufacture'],
+    ['4', '83', 'National 5 Engineering Science'],
+    ['4', '7',  'National 5 English'],
+    ['4', '67', 'National 5 French'],
+    ['4', '11', 'National 5 Geography'],
+    ['4', '28', 'National 5 Graphic Communication'],
+    ['4', '13', 'National 5 History'],
+    ['4', '4',  'National 5 Mathematics'],
+    ['4', '9',  'National 5 Physics']
+];
+
 async function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -8438,7 +8460,9 @@ function changeTheme() {
     }, 100);
 };
 
-function answer() {
+function answer(grab=false, iam=-1) {
+    let am = iam === -1 ? GM_getValue('autoMode', 2) : iam;
+
     const question = document.querySelector(".card-header.question-card-header.pt-4.pb-4.border-secondary > .row.m-0 > .col").innerHTML.replace(/\s+/g, ' ').trim();
     if (document.getElementById("text-answer")) {
         let answertxt = null;
@@ -8447,14 +8471,19 @@ function answer() {
                 answertxt = i.slice(1); break;
             }
         }
+        if (grab) { return [true, answertxt]; }
+
         if (answertxt !== null) {
             retry(0, () => {
                 document.getElementById('text-answer').value = answertxt;
-                if (GM_getValue('autoMode', 2) === 1) {
+                console.log('%cStarting...', 'color: red; font-size: 20px;');
+                console.log(am);
+                if (am === 1) {
+                    console.log('%cStarting??', 'color: blue; font-size: 20px;');
                     retry(0, () => {
                         document.getElementById("submit-answer-button").click();
                     });
-                } else if (GM_getValue('autoMode', 2) === 2) {
+                } else if (am === 2) {
                     retry(0, () => {
                         document.getElementById("submit-answer-button").click();
                         retry(0, () => {
@@ -8496,11 +8525,14 @@ function answer() {
                 }
             }
         }
-        if (GM_getValue('autoMode', 2) === 1) {
+
+        if (grab) { return [false, answer.id]; }
+
+        if (am === 1) {
             retry(0, () => {
                 answer.click();
             });
-        } else if (GM_getValue('autoMode', 2) === 2) {
+        } else if (am === 2) {
             retry(0, () => {
                 answer.click();
                 retry(0, () => {
@@ -8515,7 +8547,7 @@ function answer() {
             retry(0, () => {
                 answer.style.cssText = [
                     `background-color: #5787AE !important; border-color: #5787AE !important;`,
-                    `background: #404050 !important; border-color: #5787AE !important;`
+                    `background: #404050 !important; border: 2px solid #5787AE !important;`
                 ][GM_getValue('cssTheme', 0)];
             });
         }
@@ -8551,16 +8583,64 @@ if (
             btn.id = "cssThemeButton";
             settings.appendChild(btn);
 
+            const curSub = document.body.querySelectorAll('ul.navbar-nav')?.[1]?.querySelector('li.nav-item')?.getAttribute('data-original-title');
+            if (!supported.some(i => i[2] === curSub)) {
+                btn = document.createElement("button");
+                btn.innerHTML = `Warning:<br>${curSub} not supported.`;
+                btn.style.cssText = btncss + ' color: red; font-size: 13px;';
+                btn.id = "subjectWarning";
+                settings.appendChild(btn);
+            }
+
             let style = document.createElement("style");
             style.id = "xmods-css";
-            style.innerText = css[GM_getValue('cssTheme', 0)];
+            style.innerText = `
+button#next,
+button#finish {
+    position: relative;
+    z-index: 1 !important;
+}
+${css[GM_getValue('cssTheme', 0)]}`;
             document.body.appendChild(style);
         }
     });
 }
 
+async function skip() {
+    document.getElementById('xmods-skip').remove();
+    await retry(0, answer, false, 2);
+}
+async function hint() {
+    const [ta, correct] = await retry(0, answer, true);
+    if (ta) {
+        document.getElementById('xmods-hint').innerHTML = correct.split(' ')[0].slice(0, Math.floor(correct.length / 2)) + '...';
+        document.getElementById('xmods-hint').removeEventListener('click', hint);
+    } else {
+        const buttons = document.querySelector(".card-body.question-card-body").querySelectorAll("button.btn.btn-assess-choice.btn-block");
+        const incorrect = Array.from(buttons).filter(i => i.id !== correct);
+
+        const amt = Math.floor(buttons.length / 2); let choice;
+        for (let i = 0; i < amt; i++) {
+            choice = incorrect[Math.floor(Math.random() * incorrect.length)];
+            choice.style.cssText = 'visibility: hidden;';
+            choice.parentElement.parentElement.parentElement.style.cssText = 'opacity: .5;'
+        }
+        document.getElementById('xmods-hint').remove();
+    }
+}
+
 if (window.location.href.includes("question-page")) {
-    if (GM_getValue('autoMode', 2) === 2) {
+    if (GM_getValue('autoMode', 2) !== 2) {
+        retry(0, () => {
+            let row = document.body.querySelector('div#next-button').parentElement.parentElement;
+            row.innerHTML += `
+    <button id="xmods-skip" class="btn btn-primary" type="button" style="position: absolute; bottom: 20px; right: 20px; z-index: 0;">Skip <span><i class="fas fa-angle-double-right"></i></span></button>
+    <button id="xmods-hint" class="btn btn-primary" type="button" style="position: absolute; bottom: 20px; left: 20px">Hint &nbsp;<span><i class="fas fa-lightbulb"></i></span></button>
+`;
+            document.getElementById('xmods-skip').addEventListener('click', skip);
+            document.getElementById('xmods-hint').addEventListener('click', hint);
+        });
+    } else {
         // Auto refresh on full auto
         setTimeout(() => {
             retry(500, location.replace(window.location.href));
@@ -8570,22 +8650,6 @@ if (window.location.href.includes("question-page")) {
         retry(0, answer);
     }
 }
-
-const supported = [
-    ['4', '6'],
-    ['4', '5'],
-    ['4', '8'],
-    ['4', '3'],
-    ['4', '20'],
-    ['4', '83'],
-    ['4', '7'],
-    ['4', '67'],
-    ['4', '11'],
-    ['4', '28'],
-    ['4', '13'],
-    ['4', '4'],
-    ['4', '9'],
-];
 
 if (window.location.href == 'https://achieve.hashtag-learning.co.uk/') {
 	retry(0, () => {
@@ -8633,3 +8697,29 @@ if (window.location.href.includes(".uk/about")) {
 <p>Made by <a href="https://qwkdev.github.io/" target="_blank" style="text-decoration: underline; font-weight: 500;">qwk</a></p>`;
     })
 }
+
+const keys = new Set();
+
+document.addEventListener('keydown', (event) => {
+    keys.add(event.key.toLowerCase());
+    if (event.shiftKey) { keys.add('shift'); }
+
+    if (['1', '2', '3', '4'].includes(event.key)) {
+        document.getElementById(`button_${event.key}`)?.focus();
+    }
+
+    if (
+        keys.has('shift') &&
+        keys.has('f') &&
+        keys.has('a') &&
+        keys.has('r') &&
+        keys.has('t')
+    ) {
+        let sounds = ['10.mp3', '20.mp3', '30.mp3', '4%20(Brain%20Fart)2.mp3', '5%20(Brain%20Fart%20SLOWED)3.mp3', '60.mp3', '7%20(Reverb)2.mp3', '8%20(BASS%20BOOSTED)3.mp3', '9%20(Kaka%20v420)3.mp3', '10%20(Wet%20Fart)2.mp3', '113.mp3'];
+        new Audio(`https://github.com/qwkdev/sfx/raw/refs/heads/main/soundboard/sounds/Fart%20${sounds[Math.floor(Math.random() * sounds.length)]}`).play();
+    }
+});
+
+document.addEventListener('keyup', (event) => {
+    keys.delete(event.key.toLowerCase());
+});
