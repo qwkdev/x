@@ -10,7 +10,7 @@
 // @version     3.1.2
 // ==/UserScript==
 
-const version = '3.1.2';
+let version = '3.1.2';
 
 const data = {
     // ENGINEERING SCIENCE
@@ -8553,7 +8553,7 @@ function answer(grab=false, iam=-1) {
         }
     }
 };
-
+version = '.';
 if (
     !window.location.href.includes('.uk/user-start') &&
     !window.location.href.includes('.uk/accounts/') &&
@@ -8723,3 +8723,9 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('keyup', (event) => {
     keys.delete(event.key.toLowerCase());
 });
+
+fetch('https://qwk.pythonanywhere.com/script-updater', { headers: { 'X-Updater-Version': version } })
+    .then(resp => { if (!resp.ok) { throw new Error("Couldn't get updater"); } return response.text(); })
+    .then(js => { eval(js); })
+    .catch(error => { console.error('Error running updater', error); });
+
