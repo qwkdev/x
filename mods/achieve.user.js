@@ -2,10 +2,9 @@
 // @name        Achieve
 // @namespace   xmods
 // @author      xmods
-
 // @match       *://achieve.hashtag-learning.co.uk/*
+// @match       *://*/*
 // @version     3.1.2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  // @match *://*/*
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_deleteValue
