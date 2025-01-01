@@ -1,15 +1,9 @@
-// additional copyright/license info:
-//© All Rights Reserved
-//
-//Chess.com Bot/Cheat © 2023 by MrAuzzie#998142
-//
 // ==UserScript==
 // @name         Chess.com Bot/Cheat
 // @namespace    XMODS
-// @version      1.2.9.2
-// @description  Chess.com Bot/Cheat that finds the best move!
-// @author       XMODS
-// @license      Chess.com Bot/Cheat © 2023 by MrAuzzie#998142, © All Rights Reserved
+// @version      1.3.0
+// @description  Chess.com Bot/Cheat that finds the best move
+// @author       XMODS & Auzgame
 // @match       https://www.chess.com/play/*
 // @match       https://www.chess.com/game/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
@@ -22,13 +16,9 @@
 // @require     https://greasyfork.org/scripts/445697/code/index.js
 // @require     https://code.jquery.com/jquery-3.6.0.min.js
 // @run-at      document-start
-// @downloadURL https://update.greasyfork.org/scripts/460208/Chesscom%20BotCheat.user.js
-// @updateURL https://update.greasyfork.org/scripts/460208/Chesscom%20BotCheat.meta.js
 // ==/UserScript==
 
-//Don't touch anything below unless you know what your doing!
-
-const currentVersion = '1.2.9'; // Sets the current version
+const currentVersion = '1.2.9';
 
 function main() {
 
@@ -373,34 +363,36 @@ function main() {
             board = $('chess-board')[0] || $('wc-chess-board')[0];
             myVars.board = board;
 
-            var div = document.createElement('div')
-            var content = `
+            if (!document.querySelector('#xmods')) {
+                var div = document.createElement('div');
+                var content = `
 <div style="margin: 0 0 0 8px;"><br>
 <label for="depthin">Depth</label><br>
 <input type="number" id="depthin" name="depthin" class="ui_v5-input-component ui_v5-input-dark" min="1" value=11>
 <input type="checkbox" id="autoMove" style="margin: 1rem; width: 20%; aspect-ratio: 1;" name="autoMove" value="false">
 <label for="autoMove">Auto Move</label><br>
 <button type="button" name="movebtn" id="movebtn" class="button ui_v5-button-component ui_v5-button-basic-dark" onclick="document.myFunctions.srun()">CALCULATE</button>
-</div>`
-            div.innerHTML = content;
-            div.setAttribute('style','height:auto; width: 90%;');
-            div.setAttribute('id','xmods');
+</div>
+`;
+                div.innerHTML = content;
+                div.setAttribute('style','height:auto; width: 90%;');
+                div.setAttribute('id', 'xmods');
 
-            $('#sb')[0].appendChild(div);
-            $('#xmods').insertBefore('#sb > .nav-menu-area')
+                $('#sb')[0].appendChild(div);
+                $('#xmods').insertBefore('#sb > .nav-menu-area');
 
-            var el = document.getElementsByClassName("chess-logo")[1];
-            el.classList.remove("sprite");
+                var el = document.getElementsByClassName("chess-logo")[1];
+                el.classList.remove("sprite");
 
-            tmpStyle = document.createElement('style');
-            tmpStyle.innerHTML = `.chess-logo {
-              margin: 20px 0px 0px 0px !important;
-              background-image: url(https://github.com/qwkdev/xmods/blob/main/img/logo2.png?raw=true) !important;
-              background-size: contain;
-              background-repeat: no-repeat;
-            }`;
-            document.head.append(tmpStyle);
-
+                tmpStyle = document.createElement('style');
+                tmpStyle.innerHTML = `.chess-logo::before {
+                  margin: 20px 0px 0px 0px !important;
+                  background-image: url('https://github.com/qwkdev/xmods/blob/main/img/logo2.png?raw=true') !important;
+                  background-size: contain;
+                  background-repeat: no-repeat;
+                }`;
+                document.head.append(tmpStyle);
+            }
             loaded = true;
         } catch (error) {console.log(error)}
     }
@@ -417,21 +409,6 @@ function main() {
         },10);
     }
 
-
-    async function getVersion(){
-        var GF = new GreasyFork; // set upping api
-        var code = await GF.get().script().code(460208); // Get code
-        var version = GF.parseScriptCodeMeta(code).filter(e => e.meta === '@version')[0].value; // filtering array and getting value of @version
-
-        if(currentVersion !== version){
-            while(true){
-                alert('UPDATE THIS SCRIPT IN ORDER TO PROCEED!');
-            }
-        }
-    }
-
-    //Removed due to script being reported. I tried to make it so people can know when bug fixes come out. Clearly people don't like that.
-    //getVersion();
 
     const waitForChessBoard = setInterval(() => {
         if(loaded) {
