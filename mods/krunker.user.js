@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Krunker Hacks
 // @namespace   krunker
-// @match       *://krunker.io/*
+// @match       *://*.krunker.io/*
 // @match       *://*.browserfps.com/*
 // @exclude     *://krunker.io/social.html*
 // @exclude     *://krunker.io/editor.html*
