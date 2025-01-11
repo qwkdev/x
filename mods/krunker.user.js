@@ -1,17 +1,29 @@
 // ==UserScript==
-// @name        OP KRUNKER HACKS
+// @name        Krunker Hacks
 // @namespace   krunker
 // @match       *://krunker.io/*
+// @match       *://*.browserfps.com/*
 // @exclude     *://krunker.io/social.html*
 // @exclude     *://krunker.io/editor.html*
 // @exclude     *//krunker.io/viewer.html*
 // @grant       none
 // @version     1.3.0
 // @author      xmods
-// @description op krunker hacks
+// @description Press F1 or middle click to open the gui
 // @run-at      document-start
 // @noframes
 // ==/UserScript==
+
+/*
+ *
+ *   ███████╗  ██╗    ████████╗ ██████╗      ██████╗ ██████╗ ███████╗███╗   ██╗    ███╗   ███╗███████╗███╗   ██╗██╗   ██╗
+ *   ██╔════╝████║    ╚══██╔══╝██╔═══██╗    ██╔═══██╗██╔══██╗██╔════╝████╗  ██║    ████╗ ████║██╔════╝████╗  ██║██║   ██║
+ *   █████╗  ╚═██║       ██║   ██║   ██║    ██║   ██║██████╔╝█████╗  ██╔██╗ ██║    ██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║
+ *   ██╔══╝    ██║       ██║   ██║   ██║    ██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║    ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║
+ *   ██║       ██║       ██║   ╚██████╔╝    ╚██████╔╝██║     ███████╗██║ ╚████║    ██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝
+ *   ╚═╝       ╚═╝       ╚═╝    ╚═════╝      ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝    ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝
+ *
+ */
 
 const config = [
     {"xoffset":5,"fakepeek":false,"hitlogs":true,"fakepeekkeybind":"x","armopacity":0.5,"armcolor":"#E75480","secondarychams":false,"armcham":false,"yoffset":2,"showguisymbol":true,"fakepeekdelay":500,"zoffset":15,"wallwireframe":false,"PrimaryChams":false,"PrimaryOpacity":0.5,"PrimaryColor":"#E75480","SecondaryColor":"#E75480","SecondaryOpacity":0.5,"knifecham":false,"guitoggle":"F1","airstuckman":false,"trailtext":2,"knifecolor":"#E75480","knifeopacity":0.5,"antithrowknife":false,"airtogglekey":"t","fogambcolor":1,"firerate":1,"TckRate":33,"tickFreq":30,"unAMMO":true,"Nspread":true,"wallxrayopacity":false,"chamsitems":0,"fogdistance":250,"norecoil":true,"aimbot":10,"smoothCamUpdateInterval":500,"superSilent":false,"wallbangs":true,"alwaysAim":false,"pitchHack":1,"thirdPerson":false,"autoReload":false,"rangeCheck":false,"LastingTrail":false,"trailopacity":0.5,"spinAimFrames":10,"animatedBillboards":false,"esp":2,"espFontSize":10,"tracers":false,"FirstShowmessage":true,"awtv":false,"uwtv":false,"forceUnsilent":false,"bhop":true,"spinBot":true,"skinHack":true,"fovcolor":"#FFFFFF","aimOffset":0,"aimNoise":0,"CircleFOV":false,"drawCircleFOV":false,"fovCricleSize":50,"guiOnMMB":false,"chams":true,"ambLIGHTING":true,"fogaimbient":false,"watermark":false,"enemycolor":"#FF0000","trailcolor":"#ffffff","teamcolor":"#00FF00","colorofambient":"#b7b7ff","skycolor":"#ffb6c1","showskycolor":false,"ambINTENSITY":1,"pSpeed":0.3,"chamopaticy":1,"wireframe":false,"teamChams":false,"aimbotRange":0},
