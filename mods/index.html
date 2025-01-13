@@ -23,10 +23,50 @@
 			margin: 0;
 			background: #080810;
 		}
+		#edch {
+			margin-top: calc(11vh + 3vw - 2.6vh);
+			height: 5vh;
+		}
+		.marquee {
+			display: flex;
+			overflow: hidden;
+			user-select: none;
+			height: 5vh;
+			line-height: 5vh;
+			gap: 3vh;
+		}
+		.marquee2 {
+			animation: scroll 30s linear infinite;
+			flex-shrink: 0;
+			display: flex;
+			justify-content: space-around;
+			min-width: 100%;
+			font-weight: 700;
+			font-size: 2vh;
+			gap: 3vh;
+
+			p {
+				color: #ffffff;
+				margin: 0;
+				font-family: "Montserrat", arial;
+				font-weight: 500;
+			}
+			p.sep {
+				transform: translateY(-5%);
+			}
+		}
+		@keyframes scroll {
+			from {
+				transform: translateX(0);
+			}
+			to {
+				transform: translateX(calc(-100% - 3vh));
+			}
+		}
 		#grid {
 			display: grid;
 			gap: 6vw;
-			margin: calc(6vw + 11vh) 6vw 6vw 6vw;
+			margin: calc(3vw - 2.5vh) 6vw 6vw 6vw;
 			width: 88vw;
 			grid-template-columns: repeat(auto-fit, var(--cw));
 		}
@@ -289,6 +329,16 @@
 			<div class="link"><a class="link-hover no-sel" href="https://qwk.pythonanywhere.com/contact?ref=XMODS" target="_blank" rel="noopener">Contact<div class="underline"></div></a></div>
 		</div>
 	</div>
+	<div id="edch" class="marquee">
+		<div class="marquee2">
+			<p class="edch-data">Loading holiday data...</p><p class="sep">&#9475;</p>
+			<p class="edch-data">Loading holiday data...</p><p class="sep">&#9475;</p>
+		</div>
+		<div class="marquee2">
+			<p class="edch-data">Loading holiday data...</p><p class="sep">&#9475;</p>
+			<p class="edch-data">Loading holiday data...</p><p class="sep">&#9475;</p>
+		</div>
+	</div>
 	<div id="grid">
 		<div class="app">
 			<div class="info">
@@ -428,5 +478,17 @@
 	<div id="footer">
 		<p>Made by <span><a class="link-hover" style="color: #ffffff; text-decoration: none;" href="https://qwkdev.github.io" target="_blank" rel="noopener">qwk<span class="underline" style="width: 110%; transform: translate(-95%, 0);"></span></a></span></p>
 	</div>
+
+	<script>
+		fetch('https://qwk.pythonanywhere.com/edch', {method: 'GET'})
+		.then(response => response.text())
+		.then(text => {
+			document.querySelectorAll('.edch-data').forEach(ele => { ele.innerText = text; });
+		})
+		.catch(error => {
+			document.querySelectorAll('.edch-data').forEach(ele => { ele.innerText = `Couldn't get holiday info`; });
+			console.error('Error fetching EDC holiday text:', error)
+		});
+	</script>
 </body>
 </html>
