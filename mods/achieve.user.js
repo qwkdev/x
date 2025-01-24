@@ -8548,7 +8548,8 @@ input#id_oldpassword,
 input#id_password1,
 input#id_password2,
 input#id_password,
-input#text-answer
+input#text-answer,
+div.achieve-data-box-body
 {
     color: #fff;
 }
