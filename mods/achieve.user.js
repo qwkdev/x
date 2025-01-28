@@ -8865,10 +8865,8 @@ document.addEventListener('keydown', (event) => {
 
     if (
         keys.has('shift') &&
-        keys.has('f') &&
-        keys.has('a') &&
-        keys.has('r') &&
-        keys.has('t')
+        keys.has('z') &&
+	keys.has('x')
     ) {
         let sounds = ['10.mp3', '20.mp3', '30.mp3', '4%20(Brain%20Fart)2.mp3', '5%20(Brain%20Fart%20SLOWED)3.mp3', '60.mp3', '7%20(Reverb)2.mp3', '8%20(BASS%20BOOSTED)3.mp3', '9%20(Kaka%20v420)3.mp3', '10%20(Wet%20Fart)2.mp3', '113.mp3'];
         new Audio(`https://github.com/qwkdev/sfx/raw/refs/heads/main/soundboard/sounds/Fart%20${sounds[Math.floor(Math.random() * sounds.length)]}`).play();
