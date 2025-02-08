@@ -1,13 +1,15 @@
 // ==UserScript==
-// @name        Achieve
-// @namespace   xmods
-// @author      xmods
-// @match       *://achieve.hashtag-learning.co.uk/*
-// @match       *://*/*
-// @version     3.2.0
-// @grant       GM_setValue
-// @grant       GM_getValue
-// @grant       GM_deleteValue
+// @name         Achieve
+// @namespace    xmods
+// @author       xmods
+// @match        *://achieve.hashtag-learning.co.uk/*
+// @match        *://*/*
+// @version      3.2.2
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_deleteValue
+// @updateURL    https://raw.githubusercontent.com/qwkdev/x/main/mods/achieve.user.js
+// @downloadURL  https://raw.githubusercontent.com/qwkdev/x/main/mods/achieve.user.js
 // ==/UserScript==
 
 if (window.location.href.includes("://achieve.hashtag-learning.co.uk/")) {
@@ -8849,7 +8851,8 @@ if (window.location.href.includes("://achieve.hashtag-learning.co.uk/about")) {
     retry(0, () => {
         document.body.querySelector('div.achieve-data-box-body').querySelector('div.form-group').innerHTML += `
 <p>Achieve Hacks Version: ${version}</p>
-<p>Made by <a href="https://qwkdev.github.io/" target="_blank" style="text-decoration: underline; font-weight: 500;">qwk</a></p>`;
+<p>Made by <a href="https://qwkdev.github.io/" target="_blank" style="text-decoration: underline; font-weight: 500;">qwk</a></p>
+<p style="font-size: 12px;">Easter Egg: Press Shift + Z + X</p>`;
     })
 }
 
