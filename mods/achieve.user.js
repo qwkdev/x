@@ -14,7 +14,7 @@
 
 if (window.location.href.includes("://achieve.hashtag-learning.co.uk/")) {
 
-let version = '3.2.0';
+let version = '3.2.2';
 
 const data = {
     // ENGINEERING SCIENCE
