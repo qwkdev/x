@@ -1,11 +1,13 @@
 // ==UserScript==
-// @name        Blooket Hacks
-// @namespace   xmods
-// @match       *://*.blooket.com/*
-// @grant       none
-// @version     6.0.1
-// @author      qwk
-// @description Blooket cheat menu
+// @name         Blooket Hacks
+// @namespace    xmods
+// @match        *://*.blooket.com/*
+// @grant        none
+// @version      6.0.1
+// @author       qwk
+// @description  Blooket cheat menu
+// @updateURL    https://raw.githubusercontent.com/qwkdev/x/main/mods/blooket.user.js
+// @downloadURL  https://raw.githubusercontent.com/qwkdev/x/main/mods/blooket.user.js
 // ==/UserScript==
 
 async function wait(ms) {
