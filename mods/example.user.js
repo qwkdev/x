@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name        Example Script
 // @namespace   xmods
-// @match       *://example.org/*
+// @match       *://example.com/*
 // @grant       none
 // @version     1.0
 // @author      qwk
 // ==/UserScript==
 
+console.log("Hello, World!");
