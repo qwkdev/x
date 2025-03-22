@@ -1,0 +1,23 @@
+<body style="margin: 0; background: #000000;">
+	<p style="font-family: monospace; margin: 0; text-align: center; color: #ffffff; font-size: 6vh; line-height: 6vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+		Down for maintenance<br>
+		<b id="timer" style="color: #777777; font-weight: 500; font-size: 4vh;"></b>
+	</p>
+	<script>
+		var date = new Date("March 10, 2025 00:00:00").getTime();
+		var x = setInterval(function() {
+			var time = date - new Date().getTime();
+			
+			var d = Math.floor(time / (1000 * 60 * 60 * 24));
+			var h = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			var m = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+			var s = Math.floor((time % (1000 * 60)) / 1000);
+			document.getElementById("timer").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+			
+			if (distance < 0) {
+				clearInterval(x);
+				document.getElementById("timer").innerHTML = "";
+			}
+		}, 500);
+	</script>
+</body>
