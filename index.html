@@ -491,6 +491,16 @@
 		});
 	</script>
 
-	<script>fetch('https://qwk.pythonanywhere.com/l/xmods').catch(() => {});</script>
+	<script>
+		fetch('https://qtrack.pythonanywhere.com/visit/xmods', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				's': null,
+				'o': window.location.href || null,
+				'r': document.referrer || null
+			})
+		}).catch(error => console.error('Error fetching visits:', error));
+	</script>
 </body>
 </html>
