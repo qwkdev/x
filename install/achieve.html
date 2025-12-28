@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-	<a id="logo" href="/">
+	<a id="logo" href="/x">
 		<h1>XMODS</h1>
 	</a>
 	<div id="grid">
@@ -102,12 +102,12 @@
 				</p>
 				<p>
 					To request a subject to be added, or report any bugs,<br>
-					please contact me <span><a style="font-weight: 500;" href="https://qwk.pythonanywhere.com/contact?ref=Achieve" target="_blank">here<span class="underline" style="width: 110%; transform: translate(-95%, 0);"></span></a></span>
+					please contact me <span><a style="font-weight: 500;" href="https://contact.qwk.zone/xmods-achieve" target="_blank">here<span class="underline" style="width: 110%; transform: translate(-95%, 0);"></span></a></span>
 				</p>
 				<h2>Coming soon:</h2>
 				<ul>
 					<li>More themes</li>
-					<li><span><a style="font-weight: 500;" href="https://qwk.pythonanywhere.com/contact?ref=Achieve-Suggest" target="_blank">Suggest<span class="underline" style="width: 110%; transform: translate(-95%, 0);"></span></a></span></li>
+					<li><span><a style="font-weight: 500;" href="https://contact.qwk.zone/xmods-achieve-suggest" target="_blank">Suggest<span class="underline" style="width: 110%; transform: translate(-95%, 0);"></span></a></span></li>
 				</ul>
 			</div>
 			<div style="flex: 1;"></div>
@@ -123,6 +123,16 @@
 			});
 		});
 	</script>
-
-	<script>fetch('https://qwk.pythonanywhere.com/l/xmods-achieve').catch(() => {});</script>
+	
+	<script>
+		fetch('https://qtrack.pythonanywhere.com/visit/xmods-achieve', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				's': null,
+				'o': window.location.href || null,
+				'r': document.referrer || null
+			})
+		}).catch(error => console.error('Error fetching visits:', error));
+	</script>
 </body>
