@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-	<a id="logo" href="/">
+	<a id="logo" href="/x">
 		<h1>XMODS</h1>
 	</a>
 	<div id="grid">
@@ -79,7 +79,7 @@
 				<p>Don't use auto move when it's not your turn, it'll break<br>I'm working on a way to stop this from happening</p>
 				<p>
 					To report any bugs,<br>
-					please contact me <span><a style="font-weight: 500;" href="https://qwk.pythonanywhere.com/contact?ref=Chess" target="_blank">here<span class="underline" style="width: 110%; transform: translate(-95%, 0);"></span></a></span>
+					please contact me <span><a style="font-weight: 500;" href="https://contact.qwk.zone/xmods-chess" target="_blank">here<span class="underline" style="width: 110%; transform: translate(-95%, 0);"></span></a></span>
 				</p>
 			</div>
 			<div style="flex: 1;"></div>
@@ -96,5 +96,15 @@
 		});
 	</script>
 
-	<script>fetch('https://qwk.pythonanywhere.com/l/xmods-chess').catch(() => {});</script>
+	<script>
+		fetch('https://qtrack.pythonanywhere.com/visit/xmods-chess', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				's': null,
+				'o': window.location.href || null,
+				'r': document.referrer || null
+			})
+		}).catch(error => console.error('Error fetching visits:', error));
+	</script>
 </body>
