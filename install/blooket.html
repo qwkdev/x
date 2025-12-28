@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-	<a id="logo" href="/">
+	<a id="logo" href="/x">
 		<h1>XMODS</h1>
 	</a>
 	<div id="grid">
@@ -95,7 +95,7 @@
 				</p>
 				<p>
 					To report any bugs,<br>
-					please contact me <span><a style="font-weight: 500;" href="https://qwk.pythonanywhere.com/contact?ref=Blooket" target="_blank">here<span class="underline" style="width: 110%; transform: translate(-95%, 0);"></span></a></span>
+					please contact me <span><a style="font-weight: 500;" href="https://contact.qwk.zone/xmods-blooket" target="_blank">here<span class="underline" style="width: 110%; transform: translate(-95%, 0);"></span></a></span>
 				</p>
 			</div>
 			<div style="flex: 1;"></div>
@@ -112,5 +112,15 @@
 		});
 	</script>
 
-	<script>fetch('https://qwk.pythonanywhere.com/l/xmods-blooket').catch(() => {});</script>
+	<script>
+		fetch('https://qtrack.pythonanywhere.com/visit/xmods-blooket', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				's': null,
+				'o': window.location.href || null,
+				'r': document.referrer || null
+			})
+		}).catch(error => console.error('Error fetching visits:', error));
+	</script>
 </body>
