@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-	<a id="logo" href="/">
+	<a id="logo" href="/x">
 		<h1>XMODS</h1>
 	</a>
 	<div id="grid">
@@ -77,7 +77,7 @@
 				<h1>Notes</h1>
 				<p>
 					To report any bugs,<br>
-					either contact me <span><a style="font-weight: 500;" href="https://qwk.pythonanywhere.com/contact?ref=Youtube" target="_blank">here<span class="underline" style="width: 110%; transform: translate(-95%, 0);"></span></a></span><br>
+					either contact me <span><a style="font-weight: 500;" href="https://contact.qwk.zone/xmods-youtube" target="_blank">here<span class="underline" style="width: 110%; transform: translate(-95%, 0);"></span></a></span><br>
 					or visit the <span><a style="font-weight: 500;" href="https://github.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass/issues" target="_blank">github issues page<span class="underline" style="width: 103%; transform: translate(-98.5%, 0);"></span></a></span> for the original script
 				</p>
 			</div>
@@ -95,5 +95,15 @@
 		});
 	</script>
 
-	<script>fetch('https://qwk.pythonanywhere.com/l/xmods-youtube').catch(() => {});</script>
+	<script>
+		fetch('https://qtrack.pythonanywhere.com/visit/xmods-youtube', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				's': null,
+				'o': window.location.href || null,
+				'r': document.referrer || null
+			})
+		}).catch(error => console.error('Error fetching visits:', error));
+	</script>
 </body>
